@@ -7,7 +7,7 @@ spring:
     password: ${DB_PASSWORD:}
   jpa:
     hibernate:
-      ddl-auto: update #This tells Hibernate (Spring's persistence layer) to automatically create or update the `messages` table in the database based on your `Message.java` entity class when the application starts.d
+      ddl-auto: update #This tells Hibernate (Spring's persistence layer) to automatically create or update the `messages` table in the database based on your `Message.java` entity class when the application starts.
 management:
   endpoints:
     web:
