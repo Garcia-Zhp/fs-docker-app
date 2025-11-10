@@ -4,7 +4,7 @@ spring:
   datasource:
     url: 'jdbc:postgresql://localhost:5432/simple_api_db'
     username: 'jg_admin'
-    password: ''
+    password: ${DB_PASSWORD:}
   jpa:
     hibernate:
       ddl-auto: update #This tells Hibernate (Spring's persistence layer) to automatically create or update the `messages` table in the database based on your `Message.java` entity class when the application starts.
