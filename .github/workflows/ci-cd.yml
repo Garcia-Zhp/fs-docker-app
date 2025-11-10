@@ -8,17 +8,54 @@ on:
 
 jobs:
   build-api:
-    name: Build Spring Boot
+    name: Build Spring Boot (with Postgres service)
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: jg_admin
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: simple_api_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U jg_admin"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/simple_api_db
+      SPRING_DATASOURCE_USERNAME: jg_admin
+      SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Wait for Postgres to be ready
+        run: |
+          echo "Waiting for Postgres..."
+          # small loop to wait for the port to open. retries up to ~60s
+          for i in {1..30}; do
+            (pg_isready -h localhost -p 5432 -U jg_admin) && { echo "Postgres ready"; exit 0; } || true
+            sleep 2
+          done
+          echo "Timed out waiting for Postgres" && exit 1
+        # pg_isready is in the postgres client; if runner doesn't have it you can use nc:
+        # run: |
+        #   for i in {1..30}; do nc -z localhost 5432 && break || sleep 2; done
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
+
       - name: Build API
         run: mvn -B package --file simple-api/pom.xml
+
 
   build-ui:
     name: Build Angular
