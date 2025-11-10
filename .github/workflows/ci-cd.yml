@@ -50,6 +50,10 @@ jobs:
       - name: Build & push with docker-compose
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          cd infra
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
 
       - name: Build Docker Compose
         run: docker-compose -f infra/docker-compose.yml build
