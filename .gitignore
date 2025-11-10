@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Angular specific
 /dist/
 /out-tsc/
@@ -26,3 +27,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+=======
+node_modules/
+dist/
+target/
+.env
+*.log
+>>>>>>> daf15a9 (Add backend, frontend, and infra folders)

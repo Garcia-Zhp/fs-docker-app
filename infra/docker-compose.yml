@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  postgres-db:
+    image: postgres
+    container_name: postgres-db
+    labels:
+      environment: infra
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: simple_api_db
+      POSTGRES_USER: jg_admin
+      POSTGRES_PASSWORD: 
+
+  backend:
+    build:
+      context: ../simple-api
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/simple_api_db
+      SPRING_DATASOURCE_USERNAME: jg_admin
+      SPRING_DATASOURCE_PASSWORD: 
+    depends_on:
+      - postgres-db
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ../simple-ui
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres-data:
