@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Intro } from "./components/intro/intro";
-import { provideHttpClient } from '@angular/common/http'; // <-- New import for the fix
+import { provideHttpClient } from '@angular/common/http';
+import { Navbar } from "./components/navbar/navbar/navbar"; // <-- New import for the fix
+import { Footer } from './components/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [Intro],  templateUrl: './app.html',
+  imports: [RouterOutlet, Navbar, Footer],  templateUrl: './app.html',
   styleUrl: './app.css'
   
 })

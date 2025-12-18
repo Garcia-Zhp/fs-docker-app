@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class IntroController {
+public class TestController {
     @GetMapping("/api/intro")
     public String intro(){
         System.out.println("call recieved...");

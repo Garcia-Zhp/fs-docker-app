@@ -1,0 +1,51 @@
+<div class="blog-container">
+    <!-- Header -->
+    <div class="blog-header">
+        <h1>Blog</h1>
+        <p>Thoughts on software development, system design, and continuous learning</p>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="blog-controls">
+        <input 
+            type="text" 
+            class="search-box" 
+            placeholder="Search articles..." 
+            [(ngModel)]="searchQuery">
+        <div class="filter-tags">
+            <button 
+                *ngFor="let tag of availableTags"
+                class="tag-filter" 
+                [class.active]="isTagActive(tag)"
+                (click)="selectTag(tag)">
+                {{ tag }}
+            </button>
+        </div>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    <div class="blog-posts">
+        <article 
+            *ngFor="let post of filteredPosts" 
+            class="blog-card"
+            [class.featured]="post.featured">
+            <div class="blog-card-image">{{ post.emoji }}</div>
+            <div class="blog-card-content">
+                <div class="blog-card-meta">
+                    <span class="blog-date">📅 {{ post.date }}</span>
+                    <span class="blog-read-time">{{ post.readTime }}</span>
+                </div>
+                <h2 class="blog-card-title">{{ post.title }}</h2>
+                <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+                <div class="blog-card-tags">
+                    <span class="blog-tag" *ngFor="let tag of post.tags">{{ tag }}</span>
+                </div>
+                <a [routerLink]="['/blog', post.id]" class="read-more">Read more</a>            </div>
+        </article>
+
+        <!-- No results message -->
+        <div *ngIf="filteredPosts.length === 0" class="no-results">
+            <p>No articles found matching your search.</p>
+        </div>
+    </div>
+</div>

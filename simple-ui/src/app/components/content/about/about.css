@@ -1,0 +1,122 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100%;
+}
+
+/* Then your existing CSS continues below */
+.about-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: calc(100vh - 200px);
+    padding: 2rem;
+}
+
+/* rest of your CSS stays the same */
+
+.about-content {
+    display: flex;
+    gap: 4rem;
+    max-width: 1200px;
+    align-items: center;
+    justify-content: center; /* Add this */
+}
+
+.profile-image img {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.about-text {
+    flex: 1;
+    max-width: 540px;
+}
+
+.about-text h1 {
+    font-family: 'Belanosima', sans-serif;
+    font-size: 4.5rem; /* Changed from 3rem */
+    font-weight: 700; /* Changed from 400 - make it bold */
+    margin-bottom: 1.5rem;
+    color: #000;
+    line-height: 1.1; /* Add this - tighter for impact */
+    letter-spacing: -0.02em; /* Add this - modern look */
+}
+
+.about-text p {
+    font-size: 1.1rem; /* Changed from 1rem - slightly larger */
+    font-family: 'Be Vietnam Pro', sans-serif;
+    color: #2a2a2a; /* Changed from #333 - darker for better contrast */
+    font-weight: 300;
+    margin-bottom: 2rem;
+    line-height: 1.7; /* Add this - better readability */
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.85rem 2.25rem;
+    border: 2px solid #526665;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: 'Belanosima', sans-serif;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+    color: #526665;
+    transition: color 0.3s ease;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: #526665;
+    transition: width 0.4s ease;
+    z-index: -1;
+}
+
+.btn:hover::before {
+    width: 100%;
+}
+
+.btn:hover {
+    color: white;
+}
+
+.btn-primary {
+    border-color: #5a6a6a;
+}
+
+.btn-primary::before {
+    background: #5a6a6a;
+}
+
+.btn-secondary {
+    border-color: #4a5a5a;
+}
+
+.btn-secondary::before {
+    background: #4a5a5a;
+}
+
+.btn-tertiary {
+    border-color: #3a7a7a;
+}
+
+.btn-tertiary::before {
+    background: #3a7a7a;
+}

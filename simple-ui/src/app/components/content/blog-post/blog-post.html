@@ -1,0 +1,51 @@
+@if (post) {
+<div class="blog-post-container">
+    <!-- Back to Blog Link -->
+    <div class="back-link">
+        <a routerLink="/blog">← Back to Blog</a>
+    </div>
+
+    <!-- Post Header -->
+    <header class="post-header">
+        <div class="post-emoji">{{ post.emoji }}</div>
+        <h1 class="post-title">{{ post.title }}</h1>
+        <div class="post-meta">
+            <span class="post-author">By {{ post.author }}</span>
+            <span class="meta-separator">•</span>
+            <span class="post-date">{{ post.date }}</span>
+            <span class="meta-separator">•</span>
+            <span class="post-read-time">{{ post.readTime }}</span>
+        </div>
+        <div class="post-tags">
+            @for (tag of post.tags; track tag) {
+                <span class="post-tag">{{ tag }}</span>
+            }
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article class="post-content" [innerHTML]="post.content"></article>
+
+    <!-- Author Bio -->
+    <div class="author-bio">
+        <div class="author-bio-content">
+            <h3>About the Author</h3>
+            <p>Jaime Garcia is a Full-Stack Developer with 4+ years of experience building enterprise-scale applications. Passionate about clean code, system design, and continuous learning.</p>
+        </div>
+    </div>
+
+    <!-- Back to Blog (bottom) -->
+    <div class="back-link-bottom">
+        <a routerLink="/blog" class="btn-back">← Back to All Posts</a>
+    </div>
+</div>
+}
+
+<!-- Post Not Found -->
+@if (!post) {
+<div class="post-not-found">
+    <h1>Post Not Found</h1>
+    <p>The blog post you're looking for doesn't exist.</p>
+    <a routerLink="/blog" class="btn-back">← Back to Blog</a>
+</div>
+}
