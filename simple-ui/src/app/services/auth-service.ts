@@ -94,7 +94,6 @@ export class AuthService {
       
       // Redirect to backend OAuth endpoint
       window.location.href = `${backendUrl}/oauth2/authorization/google`;
-      //window.location.href = 'http://localhost:8080/oauth2/authorization/google';
     }
   }
   
