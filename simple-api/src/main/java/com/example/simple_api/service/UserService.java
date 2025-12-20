@@ -34,8 +34,8 @@ public class UserService {
         user.setName(name);
         user.setProfilePictureUrl(profilePictureUrl);
         
-        // Check if this email should be admin
-        if ("user@mail.com".equalsIgnoreCase(email)) {
+        // Check if this email should be admin (case-insensitive)
+        if ("garcia.zhp@gmail.com".equalsIgnoreCase(email)) {
             user.setIsAdmin(true);
         }
         
@@ -48,4 +48,6 @@ public class UserService {
                 .map(User::getIsAdmin)
                 .orElse(false);
     }
+
+    
 }

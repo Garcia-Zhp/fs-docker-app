@@ -1,36 +1,30 @@
-<<<<<<< HEAD
-# Angular specific
-/dist/
-/out-tsc/
-/tmp/
-/coverage/
-/e2e/test-output/
-/.angular/
-.angular/
-
-# Node modules and dependency files
-/node_modules/
-/package-lock.json
-/yarn.lock
-
 # Environment files
-/.env
-
-# Angular CLI and build artefacts
-/.angular-cli.json
-/.ng/
-
-# TypeScript cache
-*.tsbuildinfo
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-=======
-node_modules/
-dist/
-target/
 .env
+.env.local
+.env.production
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backend
+simple-api/target/
+simple-api/.mvn/
+simple-api/mvnw
+simple-api/mvnw.cmd
 *.log
->>>>>>> daf15a9 (Add backend, frontend, and infra folders)
+
+# Frontend
+simple-ui/node_modules/
+simple-ui/dist/
+simple-ui/.angular/
+
+# Database
+*.db
+*.sqlite

@@ -1,19 +1,97 @@
 spring:
   application:
     name: simple-api
+  
+  # Default profile (local development)
   datasource:
-    url: 'jdbc:postgresql://localhost:5432/simple_api_db'
-    username: 'jg_admin'
-    password: ${DB_PASSWORD:}
+    url: jdbc:postgresql://localhost:5432/simple_api_db
+    username: jg_admin
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  
   jpa:
     hibernate:
-      ddl-auto: update #This tells Hibernate (Spring's persistence layer) to automatically create or update the `messages` table in the database based on your `Message.java` entity class when the application starts.
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
-  endpoint:
-    health:
-      show-details: always
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: [email, profile]
+            redirect-uri: ${OAUTH_REDIRECT_URI:http://localhost:8080/login/oauth2/code/google}
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
 
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000
+
+# Frontend URL for OAuth redirects
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:4200}
+
+# Server configuration
+server:
+  port: 8080
+
+---
+# Docker profile
+spring:
+  config:
+    activate:
+      on-profile: docker
+  
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+
+# Docker-specific settings
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost}
+
+---
+# Production profile
+spring:
+  config:
+    activate:
+      on-profile: production
+  
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate  # Don't auto-update schema in production
+  
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: ${OAUTH_REDIRECT_URI}
+
+# Production settings
+app:
+  frontend-url: ${FRONTEND_URL}

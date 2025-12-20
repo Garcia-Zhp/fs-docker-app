@@ -27,8 +27,8 @@
 }
 
 .profile-image img {
-    width: 350px;
-    height: 350px;
+    width: 450px;
+    height: 450px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -41,7 +41,7 @@
 .about-text h1 {
     font-family: 'Belanosima', sans-serif;
     font-size: 4.5rem; /* Changed from 3rem */
-    font-weight: 700; /* Changed from 400 - make it bold */
+    font-weight: 600; /* Changed from 400 - make it bold */
     margin-bottom: 1.5rem;
     color: #000;
     line-height: 1.1; /* Add this - tighter for impact */

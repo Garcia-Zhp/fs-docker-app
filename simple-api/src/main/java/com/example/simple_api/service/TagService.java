@@ -3,6 +3,8 @@ package com.example.simple_api.service;
 import com.example.simple_api.dto.TagDTO;
 import com.example.simple_api.entities.Tag;
 import com.example.simple_api.repository.TagRepository;
+
+import org.springframework.lang.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +44,7 @@ public class TagService {
     }
     
     @Transactional
-    public Optional<TagDTO> updateTag(Long id, Tag tagDetails) {
+    public Optional<TagDTO> updateTag(@NonNull Long id, Tag tagDetails) {
         return tagRepository.findById(id)
                 .map(tag -> {
                     tag.setName(tagDetails.getName());
@@ -54,7 +56,7 @@ public class TagService {
     }
     
     @Transactional
-    public boolean deleteTag(Long id) {
+    public boolean deleteTag(@NonNull Long id) {
         if (tagRepository.existsById(id)) {
             tagRepository.deleteById(id);
             return true;

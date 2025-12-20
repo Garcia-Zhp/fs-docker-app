@@ -1,17 +1,21 @@
-# simple-api/Dockerfile
-
-# Stage 1: build with Maven
-FROM maven:3.9.2-eclipse-temurin-17 AS build
+# Build stage
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY pom.xml mvnw* ./
-COPY .mvn .mvn
-RUN mvn -B dependency:go-offline
+COPY pom.xml .
 COPY src ./src
-RUN mvn -B package -DskipTests
+RUN mvn clean package -DskipTests
 
-# Stage 2: run
-FROM eclipse-temurin:17-jdk-jammy
+# Run stage
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
+
+# Expose port
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=60s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]

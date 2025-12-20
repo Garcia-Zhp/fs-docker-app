@@ -1,41 +1,61 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  postgres-db:
-    image: postgres
-    container_name: postgres-db
-    labels:
-      environment: infra
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql
+  postgres:
+    image: postgres:16-alpine
+    container_name: portfolio-db
     environment:
       POSTGRES_DB: simple_api_db
       POSTGRES_USER: jg_admin
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jg_admin -d simple_api_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - portfolio-network
 
   backend:
     build:
       context: ../simple-api
       dockerfile: Dockerfile
+    container_name: portfolio-backend
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/simple_api_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/simple_api_db
       SPRING_DATASOURCE_USERNAME: jg_admin
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-    depends_on:
-      - postgres-db
+      JWT_SECRET: ${JWT_SECRET}
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      SPRING_PROFILES_ACTIVE: docker
     ports:
-      - "4200:8080"
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - portfolio-network
 
   frontend:
     build:
       context: ../simple-ui
       dockerfile: Dockerfile
+    container_name: portfolio-frontend
     ports:
       - "80:80"
     depends_on:
       - backend
+    networks:
+      - portfolio-network
 
 volumes:
   postgres-data:
+
+networks:
+  portfolio-network:
+    driver: bridge

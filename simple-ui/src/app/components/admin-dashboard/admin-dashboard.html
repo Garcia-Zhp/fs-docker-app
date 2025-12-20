@@ -1,0 +1,24 @@
+@if (isLoading) {
+      <div class="loading">Loading...</div>
+    }
+    
+@if (!isLoading && userEmail) {
+<div class="admin-dashboard">
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, {{ userEmail }}</p>
+    
+    @if (testResult) {
+        <div class="test-result">
+        ✅ Authentication working! Token is being sent to API.
+        </div>
+    }
+    
+    <div class="admin-actions">
+        <button class="btn" (click)="testAuth()">Test Auth</button>
+        <button class="btn" routerLink="/admin/posts">Manage Posts</button>
+        <button class="btn" routerLink="/admin/content">Manage Site Content</button>
+        <button class="btn" routerLink="/admin/tags">Manage Tags</button>
+        <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+</div>
+}

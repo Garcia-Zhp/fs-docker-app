@@ -4,6 +4,7 @@ import com.example.simple_api.dto.SiteContentDTO;
 import com.example.simple_api.entities.SiteContent;
 import com.example.simple_api.repository.SiteContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,13 +27,13 @@ public class SiteContentService {
     }
     
     @Transactional(readOnly = true)
-    public Optional<SiteContentDTO> getContentBySection(String section) {
+    public Optional<SiteContentDTO> getContentBySection(@NonNull String section) {
         return siteContentRepository.findBySection(section)
                 .map(this::convertToDTO);
     }
     
     @Transactional
-    public SiteContentDTO createOrUpdateContent(String section, String content) {
+    public SiteContentDTO createOrUpdateContent(@NonNull String section, String content) {
         SiteContent siteContent = siteContentRepository.findBySection(section)
                 .orElse(new SiteContent());
         
@@ -44,16 +45,13 @@ public class SiteContentService {
     }
     
     @Transactional
-    public boolean deleteContent(String section) {
+    public boolean deleteContent(@NonNull String section) {
         Optional<SiteContent> content = siteContentRepository.findBySection(section);
-        if (content.isPresent()) {
-            siteContentRepository.delete(content.get());
-            return true;
-        }
-        return false;
+        content.ifPresent(siteContentRepository::delete);
+        return content.isPresent();
     }
-    
-    private SiteContentDTO convertToDTO(SiteContent content) {
+
+    private SiteContentDTO convertToDTO(@NonNull SiteContent content) {
         SiteContentDTO dto = new SiteContentDTO();
         dto.setId(content.getId());
         dto.setSection(content.getSection());

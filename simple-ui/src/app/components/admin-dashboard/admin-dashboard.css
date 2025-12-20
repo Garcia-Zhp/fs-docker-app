@@ -1,0 +1,79 @@
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 200px);
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.admin-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.admin-dashboard h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.admin-dashboard p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+.test-result {
+    padding: 1rem;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    color: #155724;
+    margin-bottom: 2rem;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 8px;
+    background: white;
+    color: var(--color-primary);;
+    font-family: 'Belanosima', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: var(--color-primary);
+    color: white;
+}
+
+.btn-logout {
+    padding: 1rem 2rem;
+    border: 2px solid #c33;
+    border-radius: 8px;
+    background: white;
+    color: #c33;
+    font-family: 'Belanosima', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: #c33;
+    color: var(--color-bg);
+}

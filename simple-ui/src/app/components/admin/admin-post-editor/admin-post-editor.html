@@ -1,0 +1,146 @@
+<div class="editor-container">
+    <div class="editor-header">
+        <h1>{{ isEditMode ? 'Edit Post' : 'Create New Post' }}</h1>
+        <div class="header-actions">
+            <button class="btn-secondary" (click)="cancel()" [disabled]="isSaving">Cancel</button>
+            <button class="btn-primary" (click)="save()" [disabled]="isSaving">
+                {{ isSaving ? 'Saving...' : 'Save Post' }}
+            </button>
+        </div>
+    </div>
+
+    @if (isLoading) {
+        <div class="loading">Loading post...</div>
+    }
+
+    @if (!isLoading) {
+        <div class="editor-form">
+            <!-- Title -->
+            <div class="form-group">
+                <label for="title">Title *</label>
+                <input 
+                    type="text" 
+                    id="title" 
+                    [(ngModel)]="title" 
+                    placeholder="Enter post title"
+                    class="form-input"
+                >
+            </div>
+
+            <!-- Emoji -->
+            <div class="form-group">
+                <label for="emoji">Emoji</label>
+                <input 
+                    type="text" 
+                    id="emoji" 
+                    [(ngModel)]="emoji" 
+                    placeholder="📝"
+                    class="form-input-small"
+                    maxlength="2"
+                >
+            </div>
+
+            <!-- Excerpt -->
+            <div class="form-group">
+                <label for="excerpt">Excerpt *</label>
+                <textarea 
+                    id="excerpt" 
+                    [(ngModel)]="excerpt" 
+                    placeholder="Brief description of the post"
+                    class="form-textarea"
+                    rows="3"
+                ></textarea>
+            </div>
+
+            <!-- Content -->
+            <div class="form-group">
+                <label for="markdown-editor">Content * (Markdown)</label>
+                <textarea id="markdown-editor"></textarea>
+            </div>
+
+            <!-- Colors -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="colorStart">Card Color Start</label>
+                    <input 
+                        type="color" 
+                        id="colorStart" 
+                        [(ngModel)]="cardColorStart" 
+                        class="form-color"
+                    >
+                    <input 
+                        type="text" 
+                        [(ngModel)]="cardColorStart" 
+                        class="form-input-small"
+                        placeholder="#5a6a6a"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="colorEnd">Card Color End (optional for gradient)</label>
+                    <input 
+                        type="color" 
+                        id="colorEnd" 
+                        [(ngModel)]="cardColorEnd" 
+                        class="form-color"
+                    >
+                    <input 
+                        type="text" 
+                        [(ngModel)]="cardColorEnd" 
+                        class="form-input-small"
+                        placeholder="#3a7a7a"
+                    >
+                </div>
+            </div>
+
+            <!-- Read Time & Published -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="readTime">Read Time (minutes)</label>
+                    <input 
+                        type="number" 
+                        id="readTime" 
+                        [(ngModel)]="readTime" 
+                        min="1"
+                        class="form-input-small"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input 
+                            type="checkbox" 
+                            [(ngModel)]="published"
+                        >
+                        <span>Publish immediately</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="form-group">
+                <label>Tags</label>
+                <div class="tags-selector">
+                    @for (tag of availableTags; track tag.id) {
+                        <button 
+                            type="button"
+                            class="tag-button"
+                            [class.selected]="isTagSelected(tag.id)"
+                            (click)="toggleTag(tag.id)"
+                        >
+                            {{ tag.name }}
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-actions">
+                <button class="btn-secondary" (click)="cancel()" [disabled]="isSaving">Cancel</button>
+                <button class="btn-primary" (click)="save()" [disabled]="isSaving">
+                    {{ isSaving ? 'Saving...' : 'Save Post' }}
+                </button>
+            </div>
+        </div>
+    }
+</div>

@@ -1,18 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-
-interface BlogPost {
-  id: number;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  emoji: string;
-  featured?: boolean;
-}
+import { Router, RouterLink } from '@angular/router';
+import { BlogService } from '../../../services/blog-service';
+import { BlogPost, Tag, PagedResponse } from '../../../models/blog.models';
 
 @Component({
   selector: 'app-blog',
@@ -21,91 +12,128 @@ interface BlogPost {
   templateUrl: './blog.html',
   styleUrl: './blog.css'
 })
-export class Blog {
-  searchQuery: string = '';
+export class Blog implements OnInit {
+  posts: BlogPost[] = [];
+  availableTags: Tag[] = [];
   selectedTag: string = 'All';
+  searchQuery: string = '';
+  isLoading: boolean = true;
+  Math = Math;
 
-  allPosts: BlogPost[] = [
-    {
-      id: 1,
-      title: 'Lessons from Migrating PostgreSQL: A Database Migration Story',
-      excerpt: 'Leading a PostgreSQL migration for business-critical applications taught me valuable lessons about database refactoring, API design, and zero-downtime deployments. Here\'s what I learned from reducing our licensing costs while achieving zero P1/P2/P3 incidents post-launch.',
-      date: 'December 15, 2024',
-      readTime: '8 min read',
-      tags: ['PostgreSQL', 'Database Migration', 'System Design'],
-      emoji: '📝',
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Optimizing Spring Boot Performance: Real-World Examples',
-      excerpt: 'How I achieved 90% performance improvements on critical endpoints through SQL optimization and strategic caching strategies.',
-      date: 'December 10, 2024',
-      readTime: '5 min read',
-      tags: ['Spring Boot', 'Performance', 'Java'],
-      emoji: '🔧'
-    },
-    {
-      id: 3,
-      title: 'Building Workflow Automation with ServiceNow',
-      excerpt: 'Automating 75% of manual server requests using ServiceNow Flow Designer and exploring integration patterns that scale.',
-      date: 'December 5, 2024',
-      readTime: '6 min read',
-      tags: ['ServiceNow', 'Automation', 'Integration'],
-      emoji: '🤖'
-    },
-    {
-      id: 4,
-      title: 'From PCF to Kubernetes: Platform Migration Insights',
-      excerpt: 'Configuring Dockerfiles and Kubernetes manifests for 10+ microservices during a major platform migration.',
-      date: 'November 28, 2024',
-      readTime: '7 min read',
-      tags: ['Kubernetes', 'Docker', 'DevOps'],
-      emoji: '🐳'
-    },
-    {
-      id: 5,
-      title: 'Test-Driven Development in Enterprise Applications',
-      excerpt: 'Maintaining 80%+ code coverage with JUnit and Mockito while keeping tests maintainable and valuable.',
-      date: 'November 20, 2024',
-      readTime: '4 min read',
-      tags: ['Testing', 'TDD', 'Best Practices'],
-      emoji: '🎯'
-    },
-    {
-      id: 6,
-      title: 'Angular Component Design Patterns',
-      excerpt: 'Building reusable, maintainable Angular components for enterprise-scale applications with real examples.',
-      date: 'November 15, 2024',
-      readTime: '5 min read',
-      tags: ['Angular', 'Frontend', 'Design Patterns'],
-      emoji: '💡'
-    }
-  ];
+  // Pagination
+  currentPage: number = 0;
+  pageSize: number = 6;
+  totalPages: number = 0;
+  totalElements: number = 0;
 
-  availableTags: string[] = ['All', 'Java', 'Angular', 'System Design', 'DevOps'];
+  constructor(
+    private blogService: BlogService,
+    private router: Router,
+    private cdr: ChangeDetectorRef 
+  ) {}
 
-  get filteredPosts(): BlogPost[] {
-    return this.allPosts.filter(post => {
-      const matchesSearch = this.searchQuery === '' || 
-        post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(this.searchQuery.toLowerCase()));
+  ngOnInit(): void {
+    this.loadPosts();
+    this.loadTags();
+  }
 
-      const matchesTag = this.selectedTag === 'All' || 
-        post.tags.some(tag => 
-          tag.toLowerCase().includes(this.selectedTag.toLowerCase())
-        );
-
-      return matchesSearch && matchesTag;
+  loadPosts(): void {
+    this.isLoading = true;
+    this.blogService.getPostsPaginated(this.currentPage, this.pageSize).subscribe({
+      next: (response: PagedResponse<BlogPost>) => {
+        this.posts = response.content;
+        this.totalPages = response.totalPages;
+        this.totalElements = response.totalElements;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error loading posts:', error);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
-  selectTag(tag: string): void {
-    this.selectedTag = tag;
+  loadTags(): void {
+    this.blogService.getAllTags().subscribe({
+      next: (tags) => {
+        this.availableTags = [{ id: 0, name: 'All', slug: 'all' }, ...tags];
+        this.cdr.detectChanges();
+      }
+    });
   }
 
-  isTagActive(tag: string): boolean {
-    return this.selectedTag === tag;
+  get filteredPosts(): BlogPost[] {
+    let filtered = this.posts;
+
+    // Filter by tag
+    if (this.selectedTag !== 'All') {
+      filtered = filtered.filter(post =>
+        post.tags.some(tag => tag.name === this.selectedTag)
+      );
+    }
+
+    // Filter by search
+    if (this.searchQuery.trim()) {
+      const query = this.searchQuery.toLowerCase();
+      filtered = filtered.filter(post =>
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt.toLowerCase().includes(query) ||
+        post.tags.some(tag => tag.name.toLowerCase().includes(query))
+      );
+    }
+
+    return filtered;
+  }
+
+  filterByTag(tag: string): void {
+    this.selectedTag = tag;
+    this.currentPage = 0;
+    this.loadPosts();
+  }
+
+  getCardBackground(post: BlogPost): string {
+    if (post.cardColorEnd) {
+      return `linear-gradient(135deg, ${post.cardColorStart}, ${post.cardColorEnd})`;
+    }
+    return post.cardColorStart;
+  }
+
+  goToPage(page: number): void {
+    if (page >= 0 && page < this.totalPages) {
+      this.currentPage = page;
+      this.loadPosts();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) {
+      this.goToPage(this.currentPage + 1);
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 0) {
+      this.goToPage(this.currentPage - 1);
+    }
+  }
+
+  get pageNumbers(): number[] {
+    const pages: number[] = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(0, this.currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(this.totalPages - 1, startPage + maxPagesToShow - 1);
+
+    if (endPage - startPage < maxPagesToShow - 1) {
+      startPage = Math.max(0, endPage - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return pages;
   }
 }

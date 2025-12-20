@@ -1,18 +1,33 @@
 package com.example.simple_api.service;
 
-import com.example.simple_api.dto.BlogPostDTO;
-import com.example.simple_api.dto.AuthorDTO;
-import com.example.simple_api.dto.TagDTO;
-import com.example.simple_api.entities.BlogPost;
-import com.example.simple_api.entities.Tag;
-import com.example.simple_api.repository.BlogPostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import com.example.simple_api.dto.CreatePostRequest;
+import com.example.simple_api.dto.AuthorDTO;
+import com.example.simple_api.dto.BlogPostDTO;
+import com.example.simple_api.dto.TagDTO;
+import com.example.simple_api.entities.BlogPost;
+import com.example.simple_api.entities.Tag;
+import com.example.simple_api.entities.User;
+import com.example.simple_api.repository.BlogPostRepository;
+import com.example.simple_api.repository.TagRepository;
+import com.example.simple_api.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import com.example.simple_api.dto.PagedResponse;
 
 @Service
 public class BlogPostService {
@@ -20,6 +35,28 @@ public class BlogPostService {
     @Autowired
     private BlogPostRepository blogPostRepository;
     
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
+
+    // ===== NEW: Helper methods to get current user from JWT =====
+    private String getCurrentUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+        throw new RuntimeException("User not authenticated");
+    }
+
+    private User getCurrentUser() {
+        String email = getCurrentUserEmail();
+        return userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found: " + email));
+    }
+    // ===== END NEW =====
+
     @Transactional(readOnly = true)
     public List<BlogPostDTO> getAllPublishedPosts() {
         return blogPostRepository.findByPublishedTrueOrderByPublishedAtDesc()
@@ -30,7 +67,7 @@ public class BlogPostService {
     
     @Transactional(readOnly = true)
     public Optional<BlogPostDTO> getPostById(Long id) {
-        return blogPostRepository.findById(id)
+        return blogPostRepository.findByIdWithTags(id)
                 .filter(BlogPost::getPublished)
                 .map(this::convertToDTO);
     }
@@ -53,41 +90,78 @@ public class BlogPostService {
     
     @Transactional(readOnly = true)
     public List<BlogPostDTO> getAllPosts(boolean publishedOnly) {
-        List<BlogPost> posts = publishedOnly 
-            ? blogPostRepository.findByPublishedTrueOrderByPublishedAtDesc()
-            : blogPostRepository.findByPublishedOrderByCreatedAtDesc(null);
-        
+        List<BlogPost> posts;
+        if (publishedOnly) {
+            posts = blogPostRepository.findByPublishedTrueOrderByPublishedAtDesc();
+        } else {
+            posts = blogPostRepository.findAllWithTagsAndAuthor();
+        }
         return posts.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
     
     @Transactional
-    public BlogPostDTO createPost(BlogPost post) {
-        BlogPost savedPost = blogPostRepository.save(post);
-        return convertToDTO(savedPost);
+    public BlogPostDTO createPost(CreatePostRequest request) {
+        BlogPost post = new BlogPost();
+        post.setTitle(request.getTitle());
+        post.setExcerpt(request.getExcerpt());
+        post.setContent(request.getContent());
+        post.setEmoji(request.getEmoji());
+        post.setCardColorStart(request.getCardColorStart());
+        post.setCardColorEnd(request.getCardColorEnd());
+        post.setPublished(request.getPublished() != null ? request.getPublished() : false);
+        post.setReadTime(request.getReadTime() != null ? request.getReadTime() : 5);
+
+        // Set published date if published
+        if (post.getPublished()) {
+            post.setPublishedAt(LocalDateTime.now());
+        }
+
+        // CHANGED: Get current logged-in user instead of hardcoded ID
+        User author = getCurrentUser();
+        post.setAuthor(author);
+
+        // Set tags
+        if (request.getTagIds() != null && !request.getTagIds().isEmpty()) {
+            Set<Tag> tags = new HashSet<>(tagRepository.findAllById(request.getTagIds()));
+            post.setTags(tags);
+        }
+
+        BlogPost saved = blogPostRepository.save(post);
+        return convertToDTO(saved);
+    }
+
+    @Transactional
+    public Optional<BlogPostDTO> updatePost(@NonNull Long id, CreatePostRequest request) {
+        return blogPostRepository.findById(id).map(post -> {
+            post.setTitle(request.getTitle());
+            post.setExcerpt(request.getExcerpt());
+            post.setContent(request.getContent());
+            post.setEmoji(request.getEmoji());
+            post.setCardColorStart(request.getCardColorStart());
+            post.setCardColorEnd(request.getCardColorEnd());
+            post.setPublished(request.getPublished() != null ? request.getPublished() : false);
+            post.setReadTime(request.getReadTime() != null ? request.getReadTime() : 5);
+            
+            // Update published date if changing to published
+            if (post.getPublished() && post.getPublishedAt() == null) {
+                post.setPublishedAt(LocalDateTime.now());
+            }
+            
+            // Update tags
+            if (request.getTagIds() != null) {
+                Set<Tag> tags = new HashSet<>(tagRepository.findAllById(request.getTagIds()));
+                post.setTags(tags);
+            }
+            
+            BlogPost saved = blogPostRepository.save(post);
+            return convertToDTO(saved);
+        });
     }
     
     @Transactional
-    public Optional<BlogPostDTO> updatePost(Long id, BlogPost postDetails) {
-        return blogPostRepository.findById(id)
-                .map(post -> {
-                    post.setTitle(postDetails.getTitle());
-                    post.setExcerpt(postDetails.getExcerpt());
-                    post.setContent(postDetails.getContent());
-                    post.setEmoji(postDetails.getEmoji());
-                    post.setCardColorStart(postDetails.getCardColorStart());
-                    post.setCardColorEnd(postDetails.getCardColorEnd());
-                    post.setPublished(postDetails.getPublished());
-                    post.setPublishedAt(postDetails.getPublishedAt());
-                    post.setReadTime(postDetails.getReadTime());
-                    post.setTags(postDetails.getTags());
-                    return convertToDTO(blogPostRepository.save(post));
-                });
-    }
-    
-    @Transactional
-    public boolean deletePost(Long id) {
+    public boolean deletePost(@NonNull Long id) {
         if (blogPostRepository.existsById(id)) {
             blogPostRepository.deleteById(id);
             return true;
@@ -135,5 +209,24 @@ public class BlogPostService {
         dto.setName(tag.getName());
         dto.setSlug(tag.getSlug());
         return dto;
+    }
+
+    @Transactional(readOnly = true)
+    public PagedResponse<BlogPostDTO> getAllPublishedPostsPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("publishedAt").descending());
+        Page<BlogPost> postPage = blogPostRepository.findPublishedPosts(pageable);
+        
+        List<BlogPostDTO> posts = postPage.getContent().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        
+        return new PagedResponse<>(
+                posts,
+                postPage.getNumber(),
+                postPage.getSize(),
+                postPage.getTotalElements(),
+                postPage.getTotalPages(),
+                postPage.isLast()
+        );
     }
 }

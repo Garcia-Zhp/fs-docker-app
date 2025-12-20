@@ -1,51 +1,114 @@
 <div class="blog-container">
-    <!-- Header -->
-    <div class="blog-header">
-        <h1>Blog</h1>
-        <p>Thoughts on software development, system design, and continuous learning</p>
-    </div>
-
-    <!-- Search and Filters -->
+    <h1 class="blog-heading">Blog</h1>
+    
     <div class="blog-controls">
         <input 
             type="text" 
-            class="search-box" 
-            placeholder="Search articles..." 
-            [(ngModel)]="searchQuery">
+            class="search-input" 
+            [(ngModel)]="searchQuery" 
+            placeholder="Search posts..."
+        >
+        
         <div class="filter-tags">
-            <button 
-                *ngFor="let tag of availableTags"
-                class="tag-filter" 
-                [class.active]="isTagActive(tag)"
-                (click)="selectTag(tag)">
-                {{ tag }}
-            </button>
+            @for (tag of availableTags; track tag.id) {
+                <button 
+                    class="filter-tag"
+                    [class.active]="selectedTag === tag.name"
+                    (click)="filterByTag(tag.name)"
+                >
+                    {{ tag.name }}
+                </button>
+            }
         </div>
     </div>
 
-    <!-- Blog Posts Grid -->
-    <div class="blog-posts">
-        <article 
-            *ngFor="let post of filteredPosts" 
-            class="blog-card"
-            [class.featured]="post.featured">
-            <div class="blog-card-image">{{ post.emoji }}</div>
-            <div class="blog-card-content">
-                <div class="blog-card-meta">
-                    <span class="blog-date">📅 {{ post.date }}</span>
-                    <span class="blog-read-time">{{ post.readTime }}</span>
-                </div>
-                <h2 class="blog-card-title">{{ post.title }}</h2>
-                <p class="blog-card-excerpt">{{ post.excerpt }}</p>
-                <div class="blog-card-tags">
-                    <span class="blog-tag" *ngFor="let tag of post.tags">{{ tag }}</span>
-                </div>
-                <a [routerLink]="['/blog', post.id]" class="read-more">Read more</a>            </div>
-        </article>
+    @if (isLoading) {
+        <div class="loading">Loading posts...</div>
+    }
 
-        <!-- No results message -->
-        <div *ngIf="filteredPosts.length === 0" class="no-results">
-            <p>No articles found matching your search.</p>
+    @if (!isLoading) {
+        <div class="blog-grid">
+            @for (post of filteredPosts; track post.id; let first = $first) {
+                <a [routerLink]="['/blog', post.id]" class="blog-card-link">
+                    <div class="blog-card" [class.featured]="first">
+                        <div class="blog-card-background" [style.background]="getCardBackground(post)">
+                            <span class="blog-emoji">{{ post.emoji }}</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <h2 class="blog-title">{{ post.title }}</h2>
+                            <p class="blog-excerpt">{{ post.excerpt }}</p>
+                            <div class="blog-meta">
+                                <span class="read-time">{{ post.readTime }} min read</span>
+                                <span class="publish-date">{{ post.publishedAt | date:'MMM d, yyyy' }}</span>
+                            </div>
+                            <div class="blog-tags">
+                                @for (tag of post.tags; track tag.id) {
+                                    <span class="tag">{{ tag.name }}</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
         </div>
-    </div>
+
+        @if (filteredPosts.length === 0) {
+            <div class="no-posts">
+                <p>No posts found matching your criteria.</p>
+            </div>
+        }
+
+        <!-- Pagination Controls -->
+        @if (totalPages > 1) {
+            <div class="pagination">
+                <button 
+                    class="pagination-btn" 
+                    (click)="previousPage()"
+                    [disabled]="currentPage === 0"
+                >
+                    ← Previous
+                </button>
+
+                <div class="pagination-numbers">
+                    @if (pageNumbers[0] > 0) {
+                        <button class="pagination-number" (click)="goToPage(0)">1</button>
+                        @if (pageNumbers[0] > 1) {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                    }
+
+                    @for (page of pageNumbers; track page) {
+                        <button 
+                            class="pagination-number"
+                            [class.active]="page === currentPage"
+                            (click)="goToPage(page)"
+                        >
+                            {{ page + 1 }}
+                        </button>
+                    }
+
+                    @if (pageNumbers[pageNumbers.length - 1] < totalPages - 1) {
+                        @if (pageNumbers[pageNumbers.length - 1] < totalPages - 2) {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                        <button class="pagination-number" (click)="goToPage(totalPages - 1)">
+                            {{ totalPages }}
+                        </button>
+                    }
+                </div>
+
+                <button 
+                    class="pagination-btn" 
+                    (click)="nextPage()"
+                    [disabled]="currentPage === totalPages - 1"
+                >
+                    Next →
+                </button>
+            </div>
+
+            <div class="pagination-info">
+                Showing {{ currentPage * pageSize + 1 }} - {{ Math.min((currentPage + 1) * pageSize, totalElements) }} of {{ totalElements }} posts
+            </div>
+        }
+    }
 </div>

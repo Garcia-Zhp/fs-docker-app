@@ -1,0 +1,80 @@
+<div class="site-content-container">
+    <div class="content-header">
+        <h1>Site Content Management</h1>
+        <p class="subtitle">Edit the dynamic content displayed across your site</p>
+    </div>
+
+    @if (isLoading) {
+        <div class="loading">Loading content...</div>
+    }
+
+    @if (!isLoading) {
+        <div class="content-sections">
+            @for (section of contentSections; track section.section) {
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <h2>{{ section.label }}</h2>
+                            <p class="description">{{ section.description }}</p>
+                        </div>
+                        @if (!section.isEditing) {
+                            <button class="btn-edit" (click)="startEdit(section)">Edit</button>
+                        }
+                    </div>
+
+                    <div class="card-body">
+                        @if (!section.isEditing) {
+                            <div class="content-preview">
+                                {{ section.content || '(No content set)' }}
+                            </div>
+                        }
+
+                        @if (section.isEditing) {
+                            <div class="content-editor">
+                                @if (section.section === 'profile_image_url') {
+                                    <input 
+                                        type="text" 
+                                        [(ngModel)]="section.content" 
+                                        class="form-input"
+                                        placeholder="profile.jpg"
+                                    >
+                                } @else if (section.section === 'about_heading') {
+                                    <input 
+                                        type="text" 
+                                        [(ngModel)]="section.content" 
+                                        class="form-input"
+                                        placeholder="Enter heading"
+                                    >
+                                } @else {
+                                    <textarea 
+                                        [(ngModel)]="section.content" 
+                                        class="form-textarea"
+                                        rows="6"
+                                        placeholder="Enter content"
+                                    ></textarea>
+                                }
+
+                                <div class="editor-actions">
+                                    <button 
+                                        class="btn-cancel" 
+                                        (click)="cancelEdit(section)"
+                                        [disabled]="isSaving[section.section]"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button 
+                                        class="btn-save" 
+                                        (click)="saveSection(section)"
+                                        [disabled]="isSaving[section.section]"
+                                    >
+                                        {{ isSaving[section.section] ? 'Saving...' : 'Save Changes' }}
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

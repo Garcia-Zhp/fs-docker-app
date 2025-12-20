@@ -1,0 +1,35 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100%;
+}
+
+.tbd-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: calc(100vh - 200px);
+    padding: 2rem;
+}
+
+.tbd-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.tbd-content h1 {
+  font-size: 4rem;
+  /* font-family: 'Belanosima', sans-serif; */
+
+  margin: 0;
+}
+
+.emoji {
+  font-size: 10rem;
+}

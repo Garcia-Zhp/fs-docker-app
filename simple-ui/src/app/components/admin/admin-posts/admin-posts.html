@@ -1,0 +1,58 @@
+<div class="admin-posts-container">
+    <div class="admin-header">
+        <h1>Manage Blog Posts</h1>
+        <button class="btn-primary" (click)="createNew()">+ New Post</button>
+    </div>
+
+    @if (isLoading) {
+        <div class="loading">Loading posts...</div>
+    }
+
+    @if (!isLoading) {
+        <div class="posts-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Published Date</th>
+                        <th>Tags</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (post of posts; track post.id) {
+                        <tr>
+                            <td class="title-cell">
+                                <span class="emoji">{{ post.emoji }}</span>
+                                {{ post.title }}
+                            </td>
+                            <td>
+                                <span class="status-badge" [class.published]="post.published" [class.draft]="!post.published">
+                                    {{ post.published ? 'Published' : 'Draft' }}
+                                </span>
+                            </td>
+                            <td>{{ post.publishedAt | date:'MMM d, yyyy' }}</td>
+                            <td class="tags-cell">
+                                @for (tag of post.tags; track tag.id) {
+                                    <span class="tag">{{ tag.name }}</span>
+                                }
+                            </td>
+                            <td class="actions-cell">
+                                <button class="btn-edit" (click)="editPost(post.id)">Edit</button>
+                                <button class="btn-delete" (click)="deletePost(post.id, post.title)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @if (posts.length === 0) {
+                <div class="no-posts">
+                    <p>No blog posts yet. Create your first post!</p>
+                    <button class="btn-primary" (click)="createNew()">+ Create Post</button>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,19 +1,11 @@
 <div class="about-container">
     <div class="about-content">
         <div class="profile-image">
-            <img src="profile.jpg" alt="Jaime Garcia">
+            <img [src]="profileImageUrl" alt="Jaime Garcia">
         </div>
         <div class="about-text">
-            <h1>Hello world</h1>
-            <p>
-                I'm a Full-Stack Developer with 4+ years of experience building 
-                enterprise-scale applications using Java Spring Boot, Angular, and SQL. 
-                I'm passionate about writing clean, scalable code and designing solutions 
-                that make complex processes simple. I enjoy collaborating across teams, 
-                turning ideas into reliable products, and continuously learning new 
-                technologies to sharpen my craft. My goal is to build software that not 
-                only performs well – but truly makes a difference for the people who use it.
-            </p>
+            <h1>{{ heading }}</h1>
+            <p>{{ description }}</p>
             <div class="action-buttons">
                 <button class="btn btn-primary">About me</button>
                 <button class="btn btn-secondary">Contact</button>

@@ -1,3 +1,12 @@
+:root {
+  --color-primary: #526665;
+  --color-secondary: #2a2a2a;
+  --color-tertiary: #4a5a5a;
+  --color-alternate: #3a7a7a;
+  --color-bg: #ffffff;
+  --color-blk: #000;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,9 +15,32 @@
 
 html, body {
     height: 100%;
-    /* Remove overflow: hidden */
 }
 
-body {
+body, p {
     font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+h1, h2, h3, h4, button {
+    font-family: 'Belanosima', sans-serif;
+}
+
+h1{
+    font-size: 4.5rem; /* Changed from 3rem */
+    font-weight: 600; /* Changed from 400 - make it bold */
+}
+
+h2 {
+    font-size: 3rem;
+    font-weight: 400;
+}
+
+h3 {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+h4 {
+    font-size: 1rem;
+    font-weight: 400;
 }

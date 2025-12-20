@@ -2,8 +2,8 @@ package com.example.simple_api.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,10 +11,9 @@ import java.util.Set;
 @Entity
 @Table(name = "blog_posts")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(exclude = {"tags", "author"})
+@ToString(exclude = {"tags", "author"})
 public class BlogPost {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,22 +22,21 @@ public class BlogPost {
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
     
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false)
     private String title;
     
     @Column(columnDefinition = "TEXT")
     private String excerpt;
     
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String content;
     
-    @Column(length = 10)
-    private String emoji = "📝";
+    private String emoji;
     
-    @Column(name = "card_color_start", length = 7)
-    private String cardColorStart = "#5a6a6a";
+    @Column(name = "card_color_start")
+    private String cardColorStart;
     
-    @Column(name = "card_color_end", length = 7)
+    @Column(name = "card_color_end")
     private String cardColorEnd;
     
     @Column(nullable = false)
@@ -48,21 +46,21 @@ public class BlogPost {
     private LocalDateTime publishedAt;
     
     @Column(name = "read_time")
-    private Integer readTime = 5;
+    private Integer readTime;
     
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-    
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "post_tags",
         joinColumns = @JoinColumn(name = "post_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags = new HashSet<>();
+    
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
     
     @PrePersist
     protected void onCreate() {
