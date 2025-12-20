@@ -88,7 +88,13 @@ export class AuthService {
   login(): void {
     console.log('🔓 login() called');
     if (isPlatformBrowser(this.platformId)) {
-      window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+
+      // Get backend URL from environment (remove /api if present)
+      const backendUrl = environment.apiUrl.replace('/api', '');
+      
+      // Redirect to backend OAuth endpoint
+      window.location.href = `${backendUrl}/oauth2/authorization/google`;
+      //window.location.href = 'http://localhost:8080/oauth2/authorization/google';
     }
   }
   
