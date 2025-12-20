@@ -83,7 +83,7 @@ spring:
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: validate  # Don't auto-update schema in production
+      ddl-auto: update  # Don't auto-update schema in production
   
   security:
     oauth2:
