@@ -11,6 +11,22 @@ jobs:
     name: Test Backend
     runs-on: ubuntu-latest
     
+    # Add PostgreSQL service for tests
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,6 +40,13 @@ jobs:
       
       - name: Run backend tests
         working-directory: ./simple-api
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/test_db
+          SPRING_DATASOURCE_USERNAME: test_user
+          SPRING_DATASOURCE_PASSWORD: test_password
+          JWT_SECRET: test_jwt_secret_key_for_ci_testing_only_not_for_production
+          GOOGLE_CLIENT_ID: test_client_id
+          GOOGLE_CLIENT_SECRET: test_client_secret
         run: mvn clean test
       
       - name: Build backend
