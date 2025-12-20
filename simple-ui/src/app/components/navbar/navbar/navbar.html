@@ -1,17 +1,16 @@
-<div class="navbar-container">
-    <div class="navbar-title">
-        <div id="square"></div>
-        <div class="name">Jaime Garcia</div>
-        <div class="title">io</div>
-    </div>
-    <div class="navbar-routers">
-        <a routerLink="/about" routerLinkActive="active" class="nav-link" (click)="moveIndicator($event)">About</a>
-        <div class="separator-bar"></div>
-        <a routerLink="/blog" routerLinkActive="active" class="nav-link" (click)="moveIndicator($event)">Blog</a>
-        <div class="separator-bar"></div>
-        <a routerLink="/contact" routerLinkActive="active" class="nav-link" (click)="moveIndicator($event)">Contact</a>        
-        <div class="separator-bar"></div>
-        <a routerLink="/resume" routerLinkActive="active" class="nav-link" (click)="moveIndicator($event)">Resume</a>
+<nav class="navbar-container">
+    <!-- Logo/Brand -->
+    <a routerLink="/about" class="navbar-brand">
+        <div class="logo-square"></div>
+        <span class="brand-name">Jaime Garcia</span>
+    </a>
+
+    <!-- Navigation Links -->
+    <div class="navbar-links">
+        <a routerLink="/about" routerLinkActive="active" class="nav-link">About</a>
+        <a routerLink="/blog" routerLinkActive="active" class="nav-link">Blog</a>
+        <a routerLink="/contact" routerLinkActive="active" class="nav-link">Contact</a>
+        <a routerLink="/resume" routerLinkActive="active" class="nav-link">Resume</a>
         <div class="nav-indicator"></div>
     </div>
-</div>
+</nav>
