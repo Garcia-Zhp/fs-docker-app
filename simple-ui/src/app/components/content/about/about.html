@@ -1,15 +1,81 @@
 <div class="about-container">
     <div class="about-content">
-        <div class="profile-image">
-            <img [src]="profileImageUrl" alt="Jaime Garcia">
+        <!-- Profile Image -->
+        <div class="profile-section">
+            <div class="profile-image">
+                <img [src]="profileImageUrl" alt="Jaime Garcia">
+            </div>
         </div>
-        <div class="about-text">
-            <h1>{{ heading }}</h1>
-            <p>{{ description }}</p>
+
+        <!-- Content Section -->
+        <div class="content-section">
+            <!-- Greeting -->
+            <p class="greeting">
+                <span class="wave">👋</span>
+                Hi, I'm Jaime
+            </p>
+
+            <!-- Main Heading -->
+            <h1 class="main-heading" [innerHTML]="heading"></h1>
+
+            <!-- Subtitle -->
+            <p class="subtitle">Building software that makes a difference</p>
+
+            <!-- Description -->
+            <p class="description">{{ description }}</p>
+
+            <!-- Stats -->
+            <div class="stats-section">
+                <div class="stat-item">
+                    <div class="stat-number">4+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Projects Delivered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Companies</div>
+                </div>
+            </div>
+
+            <!-- Tech Stack -->
+            <div class="tech-stack">
+                <div class="tech-label">TECH STACK</div>
+                <div class="tech-icons">
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                        <span>Java</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="Spring">
+                        <span>Spring</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular">
+                        <span>Angular</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL">
+                        <span>PostgreSQL</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+                        <span>Docker</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
             <div class="action-buttons">
-                <button class="btn btn-primary">About me</button>
-                <button class="btn btn-secondary">Contact</button>
-                <button class="btn btn-tertiary">Resume</button>
+                <button class="btn btn-primary" routerLink="/contact">
+                    Get in touch
+                    <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </button>
+                <button class="btn btn-secondary" routerLink="/resume">View Resume</button>
             </div>
         </div>
     </div>
