@@ -18,7 +18,6 @@
 }
 
 .editor-header h1 {
-    font-family: 'Belanosima', sans-serif;
     font-size: 2.5rem;
     font-weight: 700;
     color: #000;
@@ -34,7 +33,6 @@
     padding: 4rem;
     font-size: 1.2rem;
     color: #666;
-    font-family: 'Be Vietnam Pro', sans-serif;
 }
 
 .editor-form {
@@ -51,7 +49,6 @@
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    font-family: 'Belanosima', sans-serif;
     font-weight: 600;
     color: #333;
 }
@@ -61,7 +58,6 @@
     padding: 0.75rem;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
-    font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 1rem;
     transition: border-color 0.2s ease;
 }
@@ -76,7 +72,6 @@
     padding: 0.75rem;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
-    font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 1rem;
 }
 
@@ -88,7 +83,6 @@
 .form-textarea-large {
     resize: vertical;
     min-height: 300px;
-    font-family: 'Courier New', monospace;
 }
 
 .form-color {
@@ -121,7 +115,6 @@
 }
 
 .checkbox-label span {
-    font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 1rem;
     color: #333;
 }
@@ -138,7 +131,6 @@
     border-radius: 20px;
     background: white;
     color: #666;
-    font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -168,7 +160,6 @@
     padding: 0.75rem 2rem;
     border: none;
     border-radius: 8px;
-    font-family: 'Belanosima', sans-serif;
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;

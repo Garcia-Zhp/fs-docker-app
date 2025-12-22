@@ -9,14 +9,32 @@
     padding: 4rem 2rem;
 }
 
+/* Profile Section - Fade in animation */
+.blog-post-container, .main-heading, .content-section {
+    flex-shrink: 0;
+    animation: fadeInLeft 0.8s ease-out;
+}
+
+/* Fade in from left keyframes */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 .back-link {
     margin-bottom: 2rem;
 }
 
 .back-link a {
-    color: #526665;
+    color: var(--primary-color);
     text-decoration: none;
-    font-family: 'Belanosima', sans-serif;
+    
     font-size: 1rem;
     transition: color 0.3s;
     display: inline-flex;
@@ -33,7 +51,7 @@
     text-align: center;
     margin-bottom: 3rem;
     padding-bottom: 2rem;
-    border-bottom: 2px solid #e0e0e0;
+    border-bottom: 2px solid var(--border);
 }
 
 .post-emoji {
@@ -42,7 +60,7 @@
 }
 
 .post-title {
-    font-family: 'Belanosima', sans-serif;
+    
     font-size: 3.5rem;
     font-weight: 700;
     color: #000;
@@ -57,9 +75,9 @@
     align-items: center;
     gap: 0.75rem;
     font-size: 1rem;
-    color: #666;
+    color: var(--text-muted);
     margin-bottom: 1.5rem;
-    font-family: 'Be Vietnam Pro', sans-serif;
+    
 }
 
 .meta-separator {
@@ -68,7 +86,7 @@
 
 .post-author {
     font-weight: 500;
-    color: #526665;
+    color: var(--primary-color);
 }
 
 .post-tags {
@@ -81,23 +99,23 @@
 .post-tag {
     padding: 0.5rem 1rem;
     background: #f0f0f0;
-    color: #526665;
+    color: var(--primary-color);
     border-radius: 20px;
     font-size: 0.9rem;
     font-weight: 500;
-    font-family: 'Belanosima', sans-serif;
+    
 }
 
 /* Post Content */
 .post-content {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    
     font-size: 1.125rem;
     line-height: 1.8;
-    color: #2a2a2a;
+    color: var(--text-color);
 }
 
 .post-content h2 {
-    font-family: 'Belanosima', sans-serif;
+    
     font-size: 2rem;
     font-weight: 700;
     color: #000;
@@ -107,7 +125,7 @@
 }
 
 .post-content h3 {
-    font-family: 'Belanosima', sans-serif;
+    
     font-size: 1.5rem;
     font-weight: 600;
     color: #000;
@@ -134,29 +152,28 @@
     background: #f5f5f5;
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
-    font-family: 'Courier New', monospace;
     font-size: 0.95rem;
-    color: #526665;
+    color: var(--primary-color);
 }
 
 .post-content blockquote {
-    border-left: 4px solid #526665;
+    border-left: 4px solid var(--primary-color);
     padding-left: 1.5rem;
     margin: 2rem 0;
     font-style: italic;
-    color: #555;
+    color: var(--text-muted-strong);
 }
 
 /* Author Bio */
 .author-bio {
     margin-top: 4rem;
     padding: 2rem;
-    background: #f8f9fa;
+    background: var(--bg-subtle);
     border-radius: 12px;
 }
 
 .author-bio-content h3 {
-    font-family: 'Belanosima', sans-serif;
+    
     font-size: 1.5rem;
     font-weight: 600;
     color: #000;
@@ -164,10 +181,10 @@
 }
 
 .author-bio-content p {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    
     font-size: 1rem;
     line-height: 1.6;
-    color: #555;
+    color: var(--text-muted-strong);
 }
 
 /* Back Link Bottom */
@@ -179,19 +196,19 @@
 .btn-back {
     display: inline-block;
     padding: 0.85rem 2.25rem;
-    border: 2px solid #526665;
+    border: 2px solid var(--primary-color);
     border-radius: 30px;
     font-size: 1rem;
-    font-family: 'Belanosima', sans-serif;
+    
     font-weight: 500;
     background: transparent;
-    color: #526665;
+    color: var(--primary-color);
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 .btn-back:hover {
-    background: #526665;
+    background: var(--primary-color);
     color: white;
 }
 
@@ -204,7 +221,7 @@
 }
 
 .post-not-found h1 {
-    font-family: 'Belanosima', sans-serif;
+    
     font-size: 3rem;
     font-weight: 700;
     color: #000;
@@ -212,9 +229,9 @@
 }
 
 .post-not-found p {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    
     font-size: 1.2rem;
-    color: #666;
+    color: var(--text-muted);
     margin-bottom: 2rem;
 }
 

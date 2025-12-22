@@ -20,8 +20,7 @@
 }
 
 .contact-subtitle h3 {
-    font-family: 'Be Vietnam Pro', sans-serif;
-    color: #666;
+    color: var(--text-muted);
     margin-bottom: 3rem;
 }
 
@@ -35,11 +34,11 @@
 .contact-form textarea {
   padding: 0.85rem 1rem;
   border-radius: 999px;
-  border: 1px solid #ddd;
+    border: 1px solid #ddd;
   font-size: 0.95rem;
   outline: none;
   transition: border 0.2s ease;
-  font-family: 'Be Vietnam Pro', sans-serif;
+  
 
 }
 
@@ -54,45 +53,20 @@
   border-color: #111;
 }
 
-.btn {
-    padding: 0.85rem 2.25rem;
-    border: 2px solid #526665;
-    border-radius: 30px;
-    font-size: 1rem;
-    cursor: pointer;
-    font-family: 'Belanosima', sans-serif;
-    font-weight: 500;
-    position: relative;
-    overflow: hidden;
-    background: transparent;
-    color: #526665;
-    transition: color 0.3s ease;
+/* Profile Section - Fade in animation */
+.contact-form, .main-heading{
+    flex-shrink: 0;
+    animation: fadeInLeft 0.8s ease-out;
 }
 
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 100%;
-    background: #526665;
-    transition: width 0.4s ease;
-    z-index: -1;
-}
-
-.btn:hover::before {
-    width: 100%;
-}
-
-.btn:hover {
-    color: white;
-}
-
-.btn-primary {
-    border-color: #5a6a6a;
-}
-
-.btn-primary::before {
-    background: #5a6a6a;
+/* Fade in from left keyframes */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }

@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth-service';
       align-items: center;
       height: 100vh;
       font-size: 1.5rem;
-      font-family: 'Be Vietnam Pro', sans-serif;
+      
       color: #526665;
     }
   `]

@@ -23,7 +23,7 @@
 .logo-square {
     width: 8px;
     height: 8px;
-    background-color: #526665;
+    background-color: var(--primary-color);
     border-radius: 2px;
     flex-shrink: 0;
 }
@@ -31,7 +31,7 @@
 .brand-name {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #526665;
+    color: var(--primary-color);
 }
 
 /* Navigation Links */
@@ -43,15 +43,16 @@
 }
 
 .nav-link {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    
     font-size: 0.95rem;
     font-weight: 500;
-    color: #666;
+    color: var(--text-muted);
     text-decoration: none;
     position: relative;
     transition: color 0.3s ease;
     padding: 0.5rem 0;
 }
+
 
 /* Underline animation */
 .nav-link::after {
@@ -61,12 +62,12 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: #526665;
+    background: var(--primary-color);
     transition: width 0.3s ease;
 }
 
 .nav-link:hover {
-    color: #526665;
+    color: var(--primary-color);
 }
 
 .nav-link:hover::after {
@@ -75,7 +76,7 @@
 
 /* Active state */
 .nav-link.active {
-    color: #526665;
+    color: var(--primary-color);
 }
 
 .nav-link.active::after {

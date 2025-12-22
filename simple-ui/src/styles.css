@@ -1,10 +1,37 @@
 :root {
-  --color-primary: #526665;
-  --color-secondary: #2a2a2a;
-  --color-tertiary: #4a5a5a;
-  --color-alternate: #3a7a7a;
-  --color-bg: #ffffff;
-  --color-blk: #000;
+    /* Primary palette */
+    --primary-color: #526665;
+    --primary-dark: #3d4d4c;
+    --primary-light: rgba(82, 102, 101, 0.1);
+    --primary-gradient: radial-gradient(circle, white 0%, rgb(0, 0, 0) 35%, rgb(248, 248, 248) 100%);
+
+    /* Text and background */
+    --text-color: #2d3436;
+    --text-light: #636e72;
+    --text-muted: #666666;
+    --text-muted-strong: #555555;
+
+    --bg-color: #ffffff;
+    --bg-subtle: #f8f9fa;
+
+    /* Cards / surfaces */
+    --card-bg: #ffffff;
+    --border: #e0e0e0;
+
+    /* Shadows */
+    --shadow: rgba(0, 0, 0, 0.08);
+    --shadow-strong: rgba(0, 0, 0, 0.12);
+    --primary-shadow: rgba(82, 102, 101, 0.2);
+    --primary-shadow-strong: rgba(82, 102, 101, 0.3);
+}
+
+.arrow-icon,
+.external-icon,
+.document-icon,
+.download-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0; /* Prevents icon from shrinking */
 }
 
 * {
@@ -15,16 +42,13 @@
 
 html, body {
     height: 100%;
+    font-family: 'Segoe UI', sans-serif;
+
 }
 
 body, p {
-    font-family: 'Be Vietnam Pro', sans-serif;
-    background-color: #eeeeee;
+    background-color: var(--bg-subtle);
 }
-
-/* h1, h2, h3, h4, button {
-    font-family: 'Belanosima', sans-serif;
-} */
 
 h1{
     font-size: 4.5rem; /* Changed from 3rem */
@@ -44,4 +68,120 @@ h3 {
 h4 {
     font-size: 1rem;
     font-weight: 400;
+}
+
+/* Main Heading */
+.main-heading {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+/* Highlight class for inline use in heading */
+.main-heading .highlight{
+    color: var(--primary-color);
+}
+
+/* Form elements */
+input, textarea, select, button {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Shared UI utilities */
+.btn {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--primary-color);
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--primary-shadow-strong);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--primary-shadow);
+}
+
+.arrow-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Utility card and shadow tokens */
+.card {
+    background: var(--card-bg);
+    box-shadow: 0 2px 8px var(--shadow);
+    border-radius: 12px;
+}
+
+app-resume {
+    display: block;
+    width: 100% !important;
+    max-width: none !important;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.15;
+    }
 }

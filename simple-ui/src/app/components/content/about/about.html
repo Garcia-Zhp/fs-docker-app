@@ -1,93 +1,251 @@
 <div class="about-container">
     <div class="about-content">
-        <!-- Profile Image -->
-        <div class="profile-section">
-            <div class="profile-image">
-                <img [src]="profileImageUrl" alt="Jaime Garcia">
+        <!-- HERO SECTION -->
+        <div>
+                <div class="profile-section">
+                    <div class="profile-image">
+                        <img [src]="profileImageUrl" alt="Jaime Garcia">
+                    </div>
+                </div>
+      
+            <!-- Content Section -->
+            <div class="content-section">
+                <!-- Greeting -->
+                <p class="greeting">
+                    <span class="wave">👋</span>
+                    Hi, I'm Jaime
+                </p>
+
+                <!-- Main Heading -->
+                <h1 class="main-heading">Full-Stack<br><span class="highlight">Developer</span></h1>
+
+                <!-- Subtitle -->
+                <p class="subtitle">Building software that makes a difference</p>
+
+                <!-- Description -->
+                <p class="description" [innerHTML]="description"></p>
+
+                <!-- Stats -->
+                <div class="stats-section">
+                    <div class="stat-item">
+                        <div class="stat-number">4+</div>
+                        <div class="stat-label">Years</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">P1 Incidents</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">B.S.</div>
+                        <div class="stat-label">Computer Science</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Azure Cert</div>
+                    </div>
+                </div> 
+
+                <!-- Tech Stack -->
+                <div class="tech-stack">
+                    <div class="tech-label">TECH STACK</div>
+                    <div class="tech-icons">
+                        <div class="tech-item">
+                            <div class="tech-icon-card">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                            </div>
+                            <span>Java</span>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon-card">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="Spring">
+                            </div>
+                            <span>Spring</span>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon-card">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular">
+                            </div>
+                            <span>Angular</span>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon-card">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL">
+                            </div>
+                            <span>PostgreSQL</span>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon-card">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+                            </div>
+                            <span>Docker</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <!-- <div class="action-buttons">
+                    <button class="btn btn-primary" routerLink="/contact">
+                        Get in touch
+                        <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </button>
+                    
+                    <button class="btn btn-secondary" routerLink="/resume">
+                        View Resume
+                    </button>
+                </div> -->
             </div>
         </div>
 
-        <!-- Content Section -->
-        <div class="content-section">
-            <!-- Greeting -->
-            <p class="greeting">
-                <span class="wave">👋</span>
-                Hi, I'm Jaime
-            </p>
-
-            <!-- Main Heading -->
-            <h1 class="main-heading" [innerHTML]="heading"></h1>
-
-            <!-- Subtitle -->
-            <p class="subtitle">Building software that makes a difference</p>
-
-            <!-- Description -->
-            <p class="description">{{ description }}</p>
-
-            <!-- Stats -->
-            <div class="stats-section">
-                <div class="stat-item">
-                    <div class="stat-number">4+</div>
-                    <div class="stat-label">Years Experience</div>
+        <!-- EXPERIENCE TIMELINE -->
+        <section class="timeline-section">
+            <div class="section-label">Experience</div>
+            <h2>Professional Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">July 2021 – December 2025</div>
+                    <h3>Software Engineer: Full-Stack Development</h3>
+                    <p class="timeline-company">General Motors</p>
+                    <ul>
+                        <li>Led PostgreSQL migration as SME, reducing annual licensing costs with zero P1/P2/P3 incidents</li>
+                        <li>Eliminated critical performance bottlenecks achieving up to 90% speed improvement (60s → 5s latency)</li>
+                        <li>Developed RESTful API endpoints monthly while maintaining 90%+ test coverage</li>
+                        <li>Led Spring Boot framework migration across 7+ microservices</li>
+                        <li>Configured Dockerfiles and Kubernetes manifests for 10+ microservices during platform migration</li>
+                        <li>Enabled 75% automation of manufacturing server requests through ServiceNow integration with Ansible</li>
+                        <li>Reduced server provisioning SLA from 10-40 days to less than 1 day</li>
+                        <li>Modernized IAM by migrating legacy workflows into ServiceNow with Azure AD integration</li>
+                        <li>Implemented SCIM synchronization flows for real-time Confluence group sync</li>
+                    </ul>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">Projects Delivered</div>
+                <div class="timeline-item">
+                    <div class="timeline-date">June 2022</div>
+                    <h3>Microsoft Certified: Azure Fundamentals</h3>
+                    <p class="timeline-company">Microsoft</p>
+                    <ul>
+                        <li>Demonstrated foundational level knowledge of cloud services and how those services are provided with Microsoft Azure</li>
+                    </ul>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">2</div>
-                    <div class="stat-label">Companies</div>
+                <div class="timeline-item">
+                    <div class="timeline-date">May 2021</div>
+                    <h3>B.S. in Computer Science</h3>
+                    <p class="timeline-company">Kennesaw State University</p>
+                    <ul>
+                        <li>Graduated with honors in Computer Science</li>
+                        <li>Focus on software engineering, algorithms, and distributed systems</li>
+                    </ul>
                 </div>
-            </div>
-
-            <!-- Tech Stack -->
-            <div class="tech-stack">
-                <div class="tech-label">TECH STACK</div>
-                <div class="tech-icons">
-                    <div class="tech-item">
-                       
-                        <div class="tech-icon-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
-                        </div>
-                        <span>Java</span>
-                    </div>
-                    <div class="tech-item">
-                        <div class="tech-icon-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="Spring">
-                        </div>
-                        <span>Spring</span>
-                    </div>
-                    <div class="tech-item">
-                        <div class="tech-icon-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular">
-                        </div>
-                        <span>Angular</span>
-                    </div>
-                    <div class="tech-item">
-                        <div class="tech-icon-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL">
-                        </div>
-                        <span>PostgreSQL</span>
-                    </div>
-                    <div class="tech-item">
-                        <div class="tech-icon-card">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
-                        </div>
-                        <span>Docker</span>
-                    </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">May 2018</div>
+                    <h3>A.S. in Computer Science</h3>
+                    <p class="timeline-company">Georgia State University</p>
+                    <ul>
+                        <li>Graduated and obtained Associate of Science majoring Computer Science </li>
+                        <li>Focus on principles of Computer Science and general education</li>
+                    </ul>
                 </div>
             </div>
+        </section>
 
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button class="btn btn-primary" routerLink="/contact">
-                    Get in touch
-                    <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                    </svg>
-                </button>
-                <button class="btn btn-secondary" routerLink="/resume">View Resume</button>
+        <!-- SKILLS -->
+        <section class="skills-section">
+            <div class="section-label">Skills</div>
+            <h2>Technical Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-category-icon">💻</div>
+                    <h3>Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">PowerShell</span>
+                        <span class="skill-tag">Python</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-icon">🚀</div>
+                    <h3>Frameworks</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">Angular</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Apache Kafka</span>
+                        <span class="skill-tag">JUnit</span>
+                        <span class="skill-tag">Mockito</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-icon">🛠️</div>
+                    <h3>Tools & Platforms</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Kubernetes</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Azure DevOps</span>
+                        <span class="skill-tag">ServiceNow</span>
+                        <span class="skill-tag">Confluence</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-icon">🎯</div>
+                    <h3>Concepts</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Agile/Scrum</span>
+                        <span class="skill-tag">TDD</span>
+                        <span class="skill-tag">CI/CD</span>
+                        <span class="skill-tag">Microservices</span>
+                        <span class="skill-tag">Event-Driven</span>
+                        <span class="skill-tag">UI/UX</span>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- VALUES -->
+        <section class="values-section">
+            <div class="section-label">Values</div>
+            <h2>What Drives Me</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">🎯</div>
+                    <h3>Quality First</h3>
+                    <p>I believe in writing clean, maintainable code with comprehensive tests. 90%+ coverage isn't a goal—it's a standard.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3>Collaboration</h3>
+                    <p>The best solutions come from teamwork. I thrive in environments where ideas are shared and everyone contributes.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">📈</div>
+                    <h3>Continuous Learning</h3>
+                    <p>Technology evolves rapidly. I'm committed to staying current and constantly expanding my skill set.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">💡</div>
+                    <h3>Problem Solving</h3>
+                    <p>I see challenges as opportunities to learn and grow. Every problem has a solution—sometimes it just takes creativity.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="cta-section">
+            <h2>Let's Work Together</h2>
+            <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+            <div class="cta-buttons">
+                <a routerLink="/contact" class="btn btn-light">Get in Touch</a>
+                <a routerLink="/resume" class="btn btn-outline-light">View Resume</a>
+            </div>
+        </section>
     </div>
 </div>
