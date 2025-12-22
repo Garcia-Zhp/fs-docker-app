@@ -148,6 +148,10 @@ input, textarea, select, button {
     border-radius: 12px;
 }
 
+p{
+    background-color: transparent;
+}
+
 app-resume {
     display: block;
     width: 100% !important;
