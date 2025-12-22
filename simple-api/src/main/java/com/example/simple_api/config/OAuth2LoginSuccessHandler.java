@@ -54,7 +54,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             // Check rate limit
         if (failedAttempts.getOrDefault(email, 0) >= 5) {
             logger.warn("Rate limit exceeded for: {}", email);
-            response.sendRedirect(frontendUrl + "/auth/error?message=Too many attempts");
+            response.sendRedirect(frontendUrl + "/admin/auth-error?message=Too many attempts");
             return;
         }                                    
 
@@ -64,7 +64,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             failedAttempts.merge(email, 1, Integer::sum);
             // Redirect to frontend with error
             String errorMessage = URLEncoder.encode("Access denied. Only authorized users can access this admin panel.", StandardCharsets.UTF_8);
-            String redirectUrl = frontendUrl + "/auth/error?message=" + errorMessage;
+            String redirectUrl = frontendUrl + "/admin/auth-error?message=" + errorMessage;
             response.sendRedirect(redirectUrl);
 
             return; // Stop processing
