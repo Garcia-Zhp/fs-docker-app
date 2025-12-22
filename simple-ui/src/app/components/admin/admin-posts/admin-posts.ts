@@ -7,7 +7,7 @@ import { BlogPost } from '../../../models/blog.models';
 @Component({
   selector: 'app-admin-posts',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './admin-posts.html',
   styleUrl: './admin-posts.css'
 })

@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './auth-error.css',
 })
 export class AuthError implements OnInit {
-
+///auth/error?message=
 
   errorMessage: string = 'Access denied';
 
