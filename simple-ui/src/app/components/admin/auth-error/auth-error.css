@@ -1,0 +1,59 @@
+    .error-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+      background: var(--bg-subtle);
+    }
+
+    .error-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 3rem;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+
+    .error-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Belanosima', sans-serif;
+      font-size: 2rem;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+    }
+
+    .error-message {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 1.1rem;
+      color: var(--text-muted-strong);
+      margin-bottom: 1rem;
+    }
+
+    .secondary-message {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary {
+      padding: 1rem 2rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }

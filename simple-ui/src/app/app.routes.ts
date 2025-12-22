@@ -11,6 +11,7 @@ import { AdminPosts } from './components/admin/admin-posts/admin-posts';
 import { AdminPostEditor } from './components/admin/admin-post-editor/admin-post-editor';
 import { AdminSiteContent } from './components/admin/admin-site-content/admin-site-content';
 import { AdminTags } from './components/admin/admin-tags/admin-tags';
+import { AuthError } from './components/admin/auth-error/auth-error';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
@@ -26,5 +27,6 @@ export const routes: Routes = [
   { path: 'admin/posts/create', component: AdminPostEditor },
   { path: 'admin/posts/edit/:id', component: AdminPostEditor },
   { path: 'admin/content', component: AdminSiteContent },
-    { path: 'admin/tags', component: AdminTags }
+  { path: 'admin/tags', component: AdminTags },
+  { path: 'admin/auth-error', component: AuthError}
 ];
