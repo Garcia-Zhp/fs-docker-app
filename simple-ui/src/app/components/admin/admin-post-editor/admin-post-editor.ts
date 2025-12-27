@@ -178,7 +178,6 @@ export class AdminPostEditor implements OnInit, AfterViewInit, OnDestroy {
 
     request.subscribe({
       next: (post) => {
-        console.log('Post saved:', post);
         this.isSaving = false;
         this.router.navigate(['/admin/posts']);
       },

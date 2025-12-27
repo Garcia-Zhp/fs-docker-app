@@ -13,7 +13,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   // Only add token to API requests (not to external URLs)
   if (token && req.url.includes('/api/')) {
-    console.log('🔐 Interceptor: Adding token to request:', req.url);
     const clonedRequest = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

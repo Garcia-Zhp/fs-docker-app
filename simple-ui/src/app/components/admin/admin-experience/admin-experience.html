@@ -1,0 +1,144 @@
+<div class="admin-experiences-container">
+  <app-back-to-dashboard></app-back-to-dashboard>
+
+  <div class="admin-header">
+    <h1>Manage Experiences</h1>
+    <button class="btn-primary" (click)="createNew()">
+      <span class="btn-text-full">+ New Experience</span>
+      <span class="btn-text-short">+ New</span>
+    </button>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading">Loading experiences...</div>
+  }
+
+  @if (!isLoading && experiences.length === 0) {
+    <div class="no-experiences">
+      <p>No experiences yet. Create your first experience!</p>
+      <button class="btn-primary" (click)="createNew()">+ Create Experience</button>
+    </div>
+  }
+
+  @if (!isLoading && experiences.length > 0) {
+    <div class="experiences-table">
+      <!-- Desktop Table View -->
+      <div class="table-wrapper">
+        <table class="desktop-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Role Title</th>
+              <th>Organization</th>
+              <th>Type</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (experience of experiences; track experience.id) {
+              <tr>
+                <td>{{ experience.id }}</td>
+                <td class="title-cell" [title]="experience.roleTitle">
+                  {{ experience.roleTitle }}
+                </td>
+                <td [title]="experience.organization">
+                  {{ experience.organization }}
+                </td>
+                <td>{{ experience.organizationType }}</td>
+                <td>{{ formatDate(experience.startDate) }}</td>
+                <td>{{ formatDate(experience.endDate) }}</td>
+                <td>
+                  <span class="status-badge" 
+                        [class.published]="experience.published" 
+                        [class.draft]="!experience.published">
+                    {{ experience.published ? 'Published' : 'Draft' }}
+                  </span>
+                </td>
+                <td class="actions-cell">
+                  <button class="btn-action btn-accomplishments" 
+                          (click)="editAccomplishments(experience.id)"
+                          title="Manage Accomplishments">
+                    <span class="btn-icon">📝</span>
+                    <span class="btn-text">Accomplishments</span>
+                  </button>
+                  <button class="btn-action btn-edit" 
+                          (click)="editExperience(experience.id)"
+                          title="Edit Experience">
+                    <span class="btn-icon">✏️</span>
+                    <span class="btn-text">Edit</span>
+                  </button>
+                  <button class="btn-action btn-delete" 
+                          (click)="deleteExperience(experience.id, experience.roleTitle)"
+                          title="Delete Experience">
+                    <span class="btn-icon">🗑️</span>
+                    <span class="btn-text">Delete</span>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile Card View -->
+      <div class="mobile-cards">
+        @for (experience of experiences; track experience.id) {
+          <div class="experience-card">
+            <div class="card-header">
+              <div class="card-title">
+                <h3>{{ experience.roleTitle }}</h3>
+                <span class="status-badge" 
+                      [class.published]="experience.published" 
+                      [class.draft]="!experience.published">
+                  {{ experience.published ? 'Published' : 'Draft' }}
+                </span>
+              </div>
+              <div class="card-id">ID: {{ experience.id }}</div>
+            </div>
+
+            <div class="card-body">
+              <div class="card-row">
+                <span class="label">Organization:</span>
+                <span class="value">{{ experience.organization }}</span>
+              </div>
+              <div class="card-row">
+                <span class="label">Type:</span>
+                <span class="value">{{ experience.organizationType }}</span>
+              </div>
+              <div class="card-row">
+                <span class="label">Period:</span>
+                <span class="value">
+                  {{ formatDate(experience.startDate) }} - {{ formatDate(experience.endDate) }}
+                </span>
+              </div>
+              @if (experience.description) {
+                <div class="card-row">
+                  <span class="label">Description:</span>
+                  <span class="value">{{ experience.description }}</span>
+                </div>
+              }
+            </div>
+
+            <div class="card-actions">
+              <button class="btn-action btn-accomplishments" 
+                      (click)="editAccomplishments(experience.id)">
+                📝 Accomplishments
+              </button>
+              <button class="btn-action btn-edit" 
+                      (click)="editExperience(experience.id)">
+                ✏️ Edit
+              </button>
+              <button class="btn-action btn-delete" 
+                      (click)="deleteExperience(experience.id, experience.roleTitle)">
+                🗑️ Delete
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

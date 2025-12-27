@@ -1,0 +1,254 @@
+<div class="editor-container">
+  <app-back-to-dashboard 
+    backLink="/admin/experience" 
+    backText="Back to Experiences">
+  </app-back-to-dashboard>
+
+  <div class="editor-header">
+    <h1>{{ isEditMode ? 'Edit Experience' : 'Create New Experience' }}</h1>
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="cancel()" [disabled]="isSaving">
+        Cancel
+      </button>
+      <button class="btn-primary" (click)="save()" [disabled]="isSaving || experienceForm.invalid">
+        {{ isSaving ? 'Saving...' : 'Save Experience' }}
+      </button>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading">Loading experience...</div>
+  }
+
+  @if (!isLoading) {
+    <form [formGroup]="experienceForm" class="editor-form">
+      
+      <!-- Organization Dropdown -->
+      <div class="form-group">
+        <label for="organizationId">Organization *</label>
+        <select 
+          id="organizationId" 
+          formControlName="organizationId"
+          (change)="onOrganizationChange($event)"
+          class="form-select"
+          [class.error]="hasError('organizationId')">
+          <option value="">Select an organization</option>
+          @for (org of organizations; track org.id) {
+            <option [value]="org.id">{{ org.orgName }} ({{ org.type }})</option>
+          }
+          <option value="new">+ Add New Organization</option>
+        </select>
+        @if (hasError('organizationId')) {
+          <span class="error-message">{{ getErrorMessage('organizationId') }}</span>
+        }
+      </div>
+
+      <!-- ✅ New Organization Form (Inline) -->
+      @if (showNewOrgForm) {
+        <div class="new-org-form" [formGroup]="newOrgForm">
+          <div class="form-header">
+            <h3>Create New Organization</h3>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="orgName">Organization Name *</label>
+              <input 
+                type="text" 
+                id="orgName" 
+                formControlName="orgName"
+                placeholder="e.g., Dunder Mifflin Paper Company"
+                class="form-input"
+                [class.error]="hasOrgError('orgName')">
+              @if (hasOrgError('orgName')) {
+                <span class="error-message">Name is required (min 2 characters)</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="type">Type *</label>
+              <input 
+                type="text" 
+                id="type" 
+                formControlName="type"
+                placeholder="e.g., Company, University"
+                class="form-input"
+                [class.error]="hasOrgError('type')">
+              @if (hasOrgError('type')) {
+                <span class="error-message">Type is required</span>
+              }
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button 
+              type="button" 
+              class="btn-cancel" 
+              (click)="cancelNewOrganization()"
+              [disabled]="isSavingOrg">
+              Cancel
+            </button>
+            <button 
+              type="button" 
+              class="btn-save" 
+              (click)="saveNewOrganization()"
+              [disabled]="isSavingOrg || newOrgForm.invalid">
+              {{ isSavingOrg ? 'Creating...' : 'Create Organization' }}
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Role Title -->
+      <div class="form-group">
+        <label for="roleTitle">Role Title *</label>
+        <input 
+          type="text" 
+          id="roleTitle" 
+          formControlName="roleTitle"
+          placeholder="e.g., Software Engineer: Full-Stack Development"
+          class="form-input"
+          [class.error]="hasError('roleTitle')">
+        @if (hasError('roleTitle')) {
+          <span class="error-message">{{ getErrorMessage('roleTitle') }}</span>
+        }
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label for="description">Description (Optional)</label>
+        <textarea 
+          id="description" 
+          formControlName="description"
+          rows="3"
+          placeholder="Brief description of the role or responsibilities"
+          class="form-textarea">
+        </textarea>
+      </div>
+
+      <!-- Date Range Type -->
+      <div class="form-group">
+        <label>Date Range Type *</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input 
+              type="radio" 
+              name="dateRangeType"
+              [value]="'range'"
+              [checked]="dateRangeType === 'range'"
+              (change)="onDateRangeTypeChange('range')">
+            <span>Date Range</span>
+            <small>Specify both start and end dates</small>
+          </label>
+
+          <label class="radio-label">
+            <input 
+              type="radio" 
+              name="dateRangeType"
+              [value]="'present'"
+              [checked]="dateRangeType === 'present'"
+              (change)="onDateRangeTypeChange('present')">
+            <span>Present</span>
+            <small>Currently ongoing (no end date)</small>
+          </label>
+
+          <label class="radio-label">
+            <input 
+              type="radio" 
+              name="dateRangeType"
+              [value]="'single'"
+              [checked]="dateRangeType === 'single'"
+              (change)="onDateRangeTypeChange('single')">
+            <span>Single Date</span>
+            <small>One-time event or achievement</small>
+          </label>
+        </div>
+      </div>
+
+      <!-- Date Fields -->
+      <div class="date-fields">
+        <div class="form-group">
+          <label for="startDate">
+            {{ dateRangeType === 'single' ? 'Date' : 'Start Date' }} *
+          </label>
+          <input 
+            type="date" 
+            id="startDate" 
+            formControlName="startDate"
+            (change)="onStartDateChange()"
+            class="form-input"
+            [class.error]="hasError('startDate')">
+          @if (hasError('startDate')) {
+            <span class="error-message">{{ getErrorMessage('startDate') }}</span>
+          }
+        </div>
+
+        @if (dateRangeType === 'range') {
+          <div class="form-group">
+            <label for="endDate">End Date *</label>
+            <input 
+              type="date" 
+              id="endDate" 
+              formControlName="endDate"
+              class="form-input"
+              [class.error]="hasError('endDate')">
+            @if (hasError('endDate')) {
+              <span class="error-message">{{ getErrorMessage('endDate') }}</span>
+            }
+          </div>
+        }
+
+        @if (dateRangeType === 'present') {
+          <div class="form-group">
+            <label>End Date</label>
+            <div class="date-display">Present</div>
+          </div>
+        }
+
+        @if (dateRangeType === 'single') {
+          <div class="form-group">
+            <label>End Date</label>
+            <div class="date-display">Same as start date</div>
+          </div>
+        }
+      </div>
+
+      <!-- Display Order -->
+      <div class="form-group">
+        <label for="sortOrder">Display Order *</label>
+        <input 
+          type="number" 
+          id="sortOrder" 
+          formControlName="sortOrder"
+          min="0"
+          placeholder="0"
+          class="form-input"
+          [class.error]="hasError('sortOrder')">
+        <small class="field-hint">Lower numbers appear first</small>
+        @if (hasError('sortOrder')) {
+          <span class="error-message">{{ getErrorMessage('sortOrder') }}</span>
+        }
+      </div>
+
+      <!-- Published -->
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            formControlName="published">
+          <span>Published (visible on public portfolio)</span>
+        </label>
+      </div>
+
+      @if (isEditMode) {
+        <div class="info-box">
+          <svg class="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <p>To manage accomplishments for this experience, save your changes first, then click "Accomplishments" from the experiences list.</p>
+        </div>
+      }
+
+    </form>
+  }
+</div>

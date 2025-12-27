@@ -1,0 +1,110 @@
+<div class="admin-accomplishments-container">
+  <app-back-to-dashboard 
+    backLink="/admin/experience" 
+    backText="Back to Experiences">
+  </app-back-to-dashboard>
+
+  <div class="admin-header">
+    <div>
+      <h1>Manage Accomplishments</h1>
+      @if (experienceTitle) {
+        <p class="experience-title">{{ experienceTitle }}</p>
+      }
+    </div>
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="cancel()" [disabled]="isSaving">
+        Cancel
+      </button>
+      <button class="btn-primary" (click)="save()" [disabled]="isSaving || accomplishmentsForm.invalid">
+        @if (isSaving) {
+          <span>Saving...</span>
+        } @else {
+          <span>Save Changes</span>
+        }
+      </button>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading">
+      Loading accomplishments...
+    </div>
+  }
+
+  @if (!isLoading) {
+    <form [formGroup]="accomplishmentsForm" class="accomplishments-form">
+      <div formArrayName="accomplishments">
+        <!-- ✅ Track by unique ID, no animation -->
+        @for (accomplishment of accomplishments.controls; track trackByFn($index, accomplishment); let i = $index) {
+          <div [formGroupName]="i" class="accomplishment-item">
+            <div class="accomplishment-header">
+              <div class="order-badge">{{ i + 1 }}</div>
+              
+              <div class="item-actions">
+                <button 
+                  type="button" 
+                  class="btn-icon" 
+                  (click)="moveUp(i)" 
+                  [disabled]="i === 0"
+                  title="Move up">
+                  ▲
+                </button>
+                <button 
+                  type="button" 
+                  class="btn-icon" 
+                  (click)="moveDown(i)" 
+                  [disabled]="i === accomplishments.length - 1"
+                  title="Move down">
+                  ▼
+                </button>
+                <button 
+                  type="button" 
+                  class="btn-icon btn-delete" 
+                  (click)="removeAccomplishment(i)"
+                  [disabled]="accomplishments.length === 1"
+                  title="Delete">
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label [for]="'content-' + i">Accomplishment *</label>
+              <textarea 
+                [id]="'content-' + i"
+                formControlName="content"
+                rows="4"
+                placeholder="Describe the accomplishment..."
+                [class.error]="hasError(i, 'content')">
+              </textarea>
+              
+              @if (hasError(i, 'content')) {
+                <span class="error-message">
+                  {{ getErrorMessage(i, 'content') }}
+                </span>
+              }
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label>
+                <input 
+                  type="checkbox" 
+                  formControlName="published">
+                <span>Published</span>
+              </label>
+            </div>
+
+            <input type="hidden" formControlName="sortOrder">
+          </div>
+        }
+      </div>
+
+      <button 
+        type="button" 
+        class="btn-add" 
+        (click)="addAccomplishment()">
+        + Add Another Accomplishment
+      </button>
+    </form>
+  }
+</div>

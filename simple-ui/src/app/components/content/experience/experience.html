@@ -1,0 +1,41 @@
+<!-- EXPERIENCE TIMELINE -->
+<section class="timeline-section">
+    <div class="section-label">Experience</div>
+    <h2>Professional Journey</h2>
+    
+    @if (isLoading()) {
+        <div class="loading">
+            Loading experiences...
+        </div>
+    }
+    
+    @if (error()) {
+        <div class="error">
+            {{ error() }}
+        </div>
+    }
+    
+    @if (!isLoading() && !error()) {
+        <div class="timeline">
+            @for (exp of experiences(); track exp.id) {
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        {{ formatDate(exp.startDate, exp.endDate) }}
+                    </div>
+                    <h3>{{ exp.roleTitle }}</h3>
+                    <p class="timeline-company">{{ exp.organization }}</p>
+                    
+                    <ul>
+                        @for (accomplishment of exp.accomplishments; track $index) {
+                            <li>{{ accomplishment }}</li>
+                        }
+                    </ul>
+                </div>
+            } @empty {
+                <div class="no-data">
+                    No experiences to display yet.
+                </div>
+            }
+        </div>
+    }
+</section>

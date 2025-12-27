@@ -27,11 +27,8 @@ export class AuthCallback implements OnInit {
   ) {}
 
 ngOnInit(): void {
-  console.log('AuthCallback component loaded');
   this.route.queryParams.subscribe(params => {
-    console.log('Query params:', params);
     const token = params['token'];
-    console.log('Token received:', token);
     
     if (token) {
       this.authService.setToken(token);
@@ -39,14 +36,12 @@ ngOnInit(): void {
       // Validate token and redirect based on admin status
       this.authService.validateToken(token).subscribe({
         next: (response) => {
-          console.log('Validation response:', response);
           if (response.valid && response.email) {
             this.authService.setCurrentUser({
               email: response.email,
               isAdmin: response.isAdmin || false
             });
             
-            console.log('Redirecting to:', response.isAdmin ? '/admin/dashboard' : '/blog');
             
             // Redirect based on admin status
             if (response.isAdmin) {
@@ -55,17 +50,14 @@ ngOnInit(): void {
               this.router.navigate(['/blog']);
             }
           } else {
-            console.log('Invalid token, redirecting to home');
             this.router.navigate(['/']);
           }
         },
         error: (err) => {
-          console.error('Validation error:', err);
           this.router.navigate(['/']);
         }
       });
     } else {
-      console.log('No token found, redirecting to home');
       this.router.navigate(['/']);
     }
   });

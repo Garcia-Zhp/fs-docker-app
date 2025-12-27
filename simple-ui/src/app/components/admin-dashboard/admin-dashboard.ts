@@ -29,7 +29,6 @@ export class AdminDashboard implements OnInit {
       this.authService.initialized$,
       this.authService.currentUser$
     ]).subscribe(([initialized, user]) => {
-      console.log('AdminDashboard - initialized:', initialized, 'user:', user);
       
       if (!initialized) {
         return;
@@ -38,7 +37,6 @@ export class AdminDashboard implements OnInit {
       this.isLoading = false;
       
       if (!user || !user.isAdmin) {
-        console.log('Not authenticated or not admin, redirecting to /admin');
         this.router.navigate(['/admin']);
       } else {
         this.userEmail = user.email;
@@ -50,15 +48,12 @@ export class AdminDashboard implements OnInit {
   }
 
   testAuth(): void {
-    console.log('Testing authentication...');
     this.blogService.getAllPosts().subscribe({
       next: (posts) => {
-        console.log('✅ API call successful! Posts:', posts.length);
         this.testResult = true;
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('❌ API call failed:', err);
       }
     });
   }
@@ -67,4 +62,15 @@ export class AdminDashboard implements OnInit {
     this.authService.logout();
     this.router.navigate(['/']);
   }
+
+  getUserInitials(email: string): string {
+  if (!email) return '?';
+  
+  const parts = email.split('@')[0].split('.');
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  
+  return email.substring(0, 2).toUpperCase();
+}
 }

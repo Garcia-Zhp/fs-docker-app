@@ -12,6 +12,9 @@ import { AdminPostEditor } from './components/admin/admin-post-editor/admin-post
 import { AdminSiteContent } from './components/admin/admin-site-content/admin-site-content';
 import { AdminTags } from './components/admin/admin-tags/admin-tags';
 import { AuthError } from './components/admin/auth-error/auth-error';
+import { AdminExperience } from './components/admin/admin-experience/admin-experience';
+import { AdminAccomplishments } from './components/admin/admin-accomplishments/admin-accomplishments';
+import { AdminExperienceEditor } from './components/admin/admin-experience-editor/admin-experience-editor';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
@@ -28,5 +31,8 @@ export const routes: Routes = [
   { path: 'admin/posts/edit/:id', component: AdminPostEditor },
   { path: 'admin/content', component: AdminSiteContent },
   { path: 'admin/tags', component: AdminTags },
-  { path: 'admin/auth-error', component: AuthError}
+  { path: 'admin/auth-error', component: AuthError },
+  { path: 'admin/experience', component: AdminExperience },
+  { path: 'admin/experiences/:id/accomplishments', component: AdminAccomplishments},
+  { path: 'admin/experience/create', component: AdminExperienceEditor }
 ];

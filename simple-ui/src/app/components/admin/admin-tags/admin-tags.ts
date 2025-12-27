@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BlogService } from '../../../services/blog-service';
 import { Tag } from '../../../models/blog.models';
+import { BackToDashboard } from "../back-to-dashboard/back-to-dashboard";
 
 @Component({
   selector: 'app-admin-tags',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BackToDashboard],
   templateUrl: './admin-tags.html',
   styleUrl: './admin-tags.css'
 })
@@ -86,7 +87,6 @@ export class AdminTags implements OnInit {
 
     this.blogService.createTag(this.newTagName, this.newTagSlug).subscribe({
       next: (tag) => {
-        console.log('Tag created:', tag);
         this.isAdding = false;
         this.loadTags();
       },
@@ -122,7 +122,6 @@ export class AdminTags implements OnInit {
 
     this.blogService.updateTag(tagId, this.editTagName, this.editTagSlug).subscribe({
       next: (tag) => {
-        console.log('Tag updated:', tag);
         this.editingTagId = null;
         this.loadTags();
       },
@@ -137,7 +136,6 @@ export class AdminTags implements OnInit {
     if (confirm(`Are you sure you want to delete "${tagName}"? This will remove it from all posts.`)) {
       this.blogService.deleteTag(tagId).subscribe({
         next: () => {
-          console.log('Tag deleted');
           this.loadTags();
         },
         error: (err) => {

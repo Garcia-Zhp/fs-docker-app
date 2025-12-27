@@ -36,15 +36,20 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/experience/published").permitAll()  // ← MOVE TO TOP!
                 .requestMatchers("/api/blog/**").permitAll()
                 .requestMatchers("/api/tags/**").permitAll()
                 .requestMatchers("/api/content/**").permitAll()
                 .requestMatchers("/api/auth/validate").permitAll()
+                .requestMatchers("/oauth2/**", "/login/**").permitAll()
+                
                 .requestMatchers("/api/auth/user").authenticated()
+                
                 .requestMatchers("/api/blog/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/content/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/tags/admin/**").hasRole("ADMIN")
-                .requestMatchers("/oauth2/**", "/login/**").permitAll()
+                .requestMatchers("/api/experience/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/organization/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2

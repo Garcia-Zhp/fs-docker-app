@@ -1,24 +1,82 @@
-@if (isLoading) {
-      <div class="loading">Loading...</div>
-    }
-    
-@if (!isLoading && userEmail) {
-<div class="admin-dashboard">
-    <h1>Admin Dashboard</h1>
-    <p>Welcome, {{ userEmail }}</p>
-    
-    @if (testResult) {
-        <div class="test-result">
-        ✅ Authentication working! Token is being sent to API.
-        </div>
-    }
-    
-    <div class="admin-actions">
-        <button class="btn" (click)="testAuth()">Test Auth</button>
-        <button class="btn" routerLink="/admin/posts">Manage Posts</button>
-        <button class="btn" routerLink="/admin/content">Manage Site Content</button>
-        <button class="btn" routerLink="/admin/tags">Manage Tags</button>
-        <button class="btn-logout" (click)="logout()">Logout</button>
+<div class="dashboard-wrapper">
+  @if (isLoading) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading dashboard...</p>
     </div>
+  }
+  
+  @if (!isLoading && userEmail) {
+    <div class="admin-dashboard">
+      <!-- Welcome Section -->
+      <div class="welcome-section">
+        <div class="welcome-card">
+          <div class="user-avatar">
+            {{ getUserInitials(userEmail) }}
+          </div>
+          <div class="welcome-text">
+            <h1>Admin Dashboard</h1>
+            <p class="user-email">{{ userEmail }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Result -->
+      @if (testResult) {
+        <div class="test-result">
+          <span class="icon">✅</span>
+          <span>Authentication working! Token is being sent to API.</span>
+        </div>
+      }
+
+      <!-- Action Cards Grid -->
+      <div class="actions-section">
+        <h2>Quick Actions</h2>
+        
+        <div class="action-cards">
+          <button class="action-card" routerLink="/admin/posts">
+            <div class="card-icon">📝</div>
+            <div class="card-content">
+              <h3>Blog Posts</h3>
+              <p>Create and manage blog posts</p>
+            </div>
+          </button>
+
+          <button class="action-card" routerLink="/admin/experience">
+            <div class="card-icon">💼</div>
+            <div class="card-content">
+              <h3>Experience</h3>
+              <p>Manage work experience & accomplishments</p>
+            </div>
+          </button>
+
+          <button class="action-card" routerLink="/admin/content">
+            <div class="card-icon">🎨</div>
+            <div class="card-content">
+              <h3>Site Content</h3>
+              <p>Edit pages and content</p>
+            </div>
+          </button>
+
+          <button class="action-card" routerLink="/admin/tags">
+            <div class="card-icon">🏷️</div>
+            <div class="card-content">
+              <h3>Tags</h3>
+              <p>Organize and manage tags</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- System Actions -->
+      <div class="system-actions">
+        <button class="btn-test" (click)="testAuth()">
+          🔧 Test Authentication
+        </button>
+        <button class="btn-logout" (click)="logout()">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
+  }
 </div>
-}

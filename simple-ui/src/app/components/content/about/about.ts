@@ -2,36 +2,20 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BlogService } from '../../../services/blog-service';
 import { CommonModule } from '@angular/common';
-
+import { Experience } from '../experience/experience';
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, Experience],
   templateUrl: './about.html',
   styleUrl: './about.css'
 })
 export class About implements OnInit {
   // Dynamic content from database
-  heading: string = 'About<br><span class="highlight">Me</span>';
-  description: string = `I'm a Software Engineer with 4+ years of 
-  experience building enterprise-scale solutions using Java, Spring Boot, Angular, and SQL. 
-
-  <br>
-  <br>
-  I'm passionate about writing clean, scalable code and designing solutions that make complex processes simple. 
-  I enjoy collaborating across teams, turning ideas into reliable products, and continuously learning new technologies to sharpen my craft.
-  `
+  description: string = `No Content Loaded`;
   profileImageUrl: string = 'profile.jpg';
-  
-  // Stats (could be moved to database if needed)
-  stats = [
-    { number: 'B.S.', label: 'CompSci' },
-    { number: '15+', label: 'Projects Delivered' },
-    { number: '2', label: 'Companies' }
-  ];
 
-
-  // Tech stack (could be moved to database if needed)
+  // Tech stack
   techStack = [
     { 
       name: 'Java',
@@ -53,11 +37,9 @@ export class About implements OnInit {
       name: 'Docker',
       icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg'
     },
-
   ];
 
   isLoading: boolean = true;
-  tsdf: boolean = false;
 
   constructor(
     private blogService: BlogService,
@@ -70,19 +52,6 @@ export class About implements OnInit {
 
   loadContent(): void {
     this.isLoading = true;
-
-    // Load heading from database
-    this.blogService.getSiteContent('about_heading').subscribe({
-      next: (content) => {
-        if (content && content.content) {
-          this.heading = content.content;
-        }
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Error loading heading:', error);
-      }
-    });
 
     // Load description from database
     this.blogService.getSiteContent('about_description').subscribe({

@@ -1,0 +1,404 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.admin-experiences-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+/* Header */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.admin-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+}
+
+/* Button responsiveness */
+.btn-primary {
+  padding: 0.75rem 1.5rem;
+  background: #526665;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: #3a4a4a;
+  transform: translateY(-2px);
+}
+
+.btn-text-short {
+  display: none;
+}
+
+/* Loading & Empty States */
+.loading {
+  text-align: center;
+  padding: 4rem 2rem;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.no-experiences {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.no-experiences p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+/* Table Container */
+.experiences-table {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Desktop Table */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.desktop-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.mobile-cards {
+  display: none;
+}
+
+thead {
+  background: #f8f9fa;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+th {
+  padding: 1rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+  color: #555;
+  font-size: 0.9rem;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.title-cell {
+  font-weight: 500;
+  color: #000;
+  max-width: 250px;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.status-badge.published {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-badge.draft {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* Actions Cell */
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  min-width: 280px;
+}
+
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-icon {
+  font-size: 1rem;
+}
+
+.btn-accomplishments {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.btn-accomplishments:hover {
+  background: #bbdefb;
+  transform: translateY(-1px);
+}
+
+.btn-edit {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.btn-edit:hover {
+  background: #ffe0b2;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.btn-delete:hover {
+  background: #ffcdd2;
+  transform: translateY(-1px);
+}
+
+/* Mobile Cards (hidden on desktop) */
+.experience-card {
+  display: none;
+}
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .admin-experiences-container {
+    padding: 1.5rem;
+  }
+
+  .desktop-table {
+    min-width: 800px;
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .actions-cell {
+    min-width: 250px;
+  }
+
+  .btn-action .btn-text {
+    display: none;
+  }
+
+  .btn-action {
+    padding: 0.5rem;
+    min-width: 36px;
+    justify-content: center;
+  }
+
+  .btn-icon {
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 768px) {
+  .admin-experiences-container {
+    padding: 1rem;
+  }
+
+  .admin-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+
+  .btn-text-full {
+    display: none;
+  }
+
+  .btn-text-short {
+    display: inline;
+  }
+
+  /* Hide desktop table, show mobile cards */
+  .desktop-table {
+    display: none;
+  }
+
+  .mobile-cards {
+    display: block;
+  }
+
+  /* Mobile Card Styles */
+  .experience-card {
+    display: block;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-header {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-title h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #000;
+    flex: 1;
+  }
+
+  .card-id {
+    font-size: 0.75rem;
+    color: #999;
+    font-weight: 500;
+  }
+
+  .card-body {
+    margin-bottom: 1rem;
+  }
+
+  .card-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .card-row .label {
+    font-weight: 600;
+    color: #666;
+    min-width: 100px;
+  }
+
+  .card-row .value {
+    color: #333;
+    flex: 1;
+  }
+
+  .card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .card-actions .btn-action {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .card-actions .btn-action .btn-text {
+    display: inline;
+  }
+
+  .no-experiences {
+    padding: 2rem 1rem;
+  }
+
+  .no-experiences p {
+    font-size: 1rem;
+  }
+}
+
+/* Small mobile (< 480px) */
+@media (max-width: 480px) {
+  .admin-experiences-container {
+    padding: 0.75rem;
+  }
+
+  .admin-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .card-title h3 {
+    font-size: 1rem;
+  }
+
+  .card-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .card-row .label {
+    min-width: auto;
+    font-size: 0.8rem;
+  }
+
+  .card-row .value {
+    font-size: 0.85rem;
+  }
+}

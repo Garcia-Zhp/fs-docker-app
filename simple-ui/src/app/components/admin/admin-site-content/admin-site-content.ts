@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BlogService } from '../../../services/blog-service';
+import { BackToDashboard } from '../back-to-dashboard/back-to-dashboard';
 
 interface ContentSection {
   section: string;
@@ -14,7 +15,7 @@ interface ContentSection {
 @Component({
   selector: 'app-admin-site-content',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BackToDashboard],
   templateUrl: './admin-site-content.html',
   styleUrl: './admin-site-content.css'
 })
@@ -60,7 +61,6 @@ export class AdminSiteContent implements OnInit {
     
     this.blogService.getAllSiteContent().subscribe({
       next: (contents) => {
-        console.log('Site content loaded:', contents);
         
         // Update content sections with loaded data
         contents.forEach(content => {
@@ -101,7 +101,6 @@ export class AdminSiteContent implements OnInit {
 
     this.blogService.updateSiteContent(section.section, section.content).subscribe({
       next: (response) => {
-        console.log('Content saved:', response);
         section.isEditing = false;
         this.isSaving[section.section] = false;
         this.cdr.detectChanges();

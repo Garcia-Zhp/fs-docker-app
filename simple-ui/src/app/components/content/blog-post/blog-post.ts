@@ -34,7 +34,6 @@ export class BlogPostComponent implements OnInit {
     this.isLoading = true;
     this.blogService.getPostById(id).subscribe({
       next: (post) => {
-        console.log('Post received:', post);
         if (post) {
           this.post = post;
           this.renderedContent = this.markdownService.renderUnsafe(post.content);

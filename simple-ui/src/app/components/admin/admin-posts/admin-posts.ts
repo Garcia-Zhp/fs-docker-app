@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { BlogService } from '../../../services/blog-service';
 import { BlogPost } from '../../../models/blog.models';
+import { BackToDashboard } from '../back-to-dashboard/back-to-dashboard';
 
 @Component({
   selector: 'app-admin-posts',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BackToDashboard],
   templateUrl: './admin-posts.html',
   styleUrl: './admin-posts.css'
 })
@@ -49,11 +50,9 @@ export class AdminPosts implements OnInit {
     if (confirm(`Are you sure you want to delete "${title}"?`)) {
       this.blogService.deletePost(id).subscribe({
         next: () => {
-          console.log('Post deleted');
           this.loadPosts(); // Reload the list
         },
         error: (err) => {
-          console.error('Error deleting post:', err);
           alert('Failed to delete post');
         }
       });
