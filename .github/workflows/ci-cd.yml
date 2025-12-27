@@ -47,6 +47,7 @@ jobs:
           JWT_SECRET: test_jwt_secret_key_for_ci_testing_only_not_for_production
           GOOGLE_CLIENT_ID: test_client_id
           GOOGLE_CLIENT_SECRET: test_client_secret
+          ADMIN_EMAIL: email_ph
         run: mvn clean test
       
       - name: Build backend
